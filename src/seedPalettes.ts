@@ -1,15 +1,4 @@
-type Color = {
-    name: string;
-    color: string;
-}
-
-export type PaletteT = {
-    paletteName: string;
-    id: string;
-    emoji: string;
-    colors: Color[]
-}
-
+import { PaletteT } from './index.d'
 export const initialPalettes: PaletteT[] = [
     {
       paletteName: "Material UI Colors",

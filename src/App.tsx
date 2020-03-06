@@ -1,20 +1,23 @@
-import React from 'react'
-import {Palette} from './Palette'
-import {initialPalettes, PaletteT} from './seedPalettes'
+import React from "react";
+import { Palette } from "./Palette";
+import { initialPalettes } from "./seedPalettes";
+import { PaletteT } from "./index.d";
+import { GlobalStyle } from "./globalStyles";
 
 const palettesReducer = (state: PaletteT[]): PaletteT[] => {
-  return state
-}
+  return state;
+};
 
 export const App = () => {
-  const [palettes, dispPalettes] = React.useReducer(palettesReducer, initialPalettes)
+  const [palettes, dispPalettes] = React.useReducer(
+    palettesReducer,
+    initialPalettes
+  );
   return (
-    <div>
-      <header>hello app</header>
-      <section>
-        <Palette paletteData={palettes[1]}/>
-      </section>
-
-    </div>
-  )
-}
+    <>
+      <GlobalStyle />
+      {/* <header style={{position: "relative", textAlign: 'center', width: '100%'}}>hello app</header> */}
+      <Palette paletteData={palettes[1]} />
+    </>
+  );
+};

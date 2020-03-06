@@ -1,5 +1,7 @@
 import React from "react";
-import { PaletteT } from "./seedPalettes";
+import styled from 'styled-components'
+import { PaletteT } from "./index.d";
+import {ColorBox} from './ColorBox'
 
 type PalettePropsT = {
   paletteData: PaletteT;
@@ -7,14 +9,23 @@ type PalettePropsT = {
 
 export const Palette: React.FC<PalettePropsT> = props => {
   return (
-    <div>
+    <PaletteStyled>
         {/* header */}
-      <h3>{props.paletteData.paletteName}</h3>
+      <h3 style={{position: "relative", textAlign: 'center', width: '100%'}}>{props.paletteData.paletteName}</h3>
         {/* color boxes */}
-      {props.paletteData.colors.map(c => (
-        <div style={{ backgroundColor: `${c.color}` }}>{c.name}</div>
-      ))}
+        <div className='color-boxes'>
+            {props.paletteData.colors.map(c => <ColorBox color={c}/>)}
+        </div>
         {/* footer */}
-    </div>
+    </PaletteStyled>
   );
 };
+
+const PaletteStyled = styled.div`
+    height: 100vh;
+    .color-boxes {
+        display: flex;
+        flex-wrap: wrap;
+        height: 90%;
+    }
+`
