@@ -1,7 +1,7 @@
 import React from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 import { PaletteT } from "./index.d";
-import {ColorBox} from './ColorBox'
+import { ColorBox } from "./ColorBox";
 
 type PalettePropsT = {
   paletteData: PaletteT;
@@ -10,22 +10,28 @@ type PalettePropsT = {
 export const Palette: React.FC<PalettePropsT> = props => {
   return (
     <PaletteStyled>
-        {/* header */}
-      <h3 style={{position: "relative", textAlign: 'center', width: '100%'}}>{props.paletteData.paletteName}</h3>
-        {/* color boxes */}
-        <div className='color-boxes'>
-            {props.paletteData.colors.map(c => <ColorBox color={c}/>)}
-        </div>
-        {/* footer */}
+      {/* header */}
+      <h3 style={{ position: "relative", textAlign: "center", width: "100%" }}>
+        {props.paletteData.paletteName}
+      </h3>
+      {/* color boxes */}
+      <div className="color-boxes">
+        {props.paletteData.colors.map(c => (
+          <ColorBox color={c} />
+        ))}
+      </div>
+      {/* footer */}
     </PaletteStyled>
   );
 };
 
 const PaletteStyled = styled.div`
-    height: 100vh;
-    .color-boxes {
-        display: flex;
-        flex-wrap: wrap;
-        height: 90%;
-    }
-`
+  height: 100vh;
+  overflow: hidden;
+
+  .color-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    height: 90%;
+  }
+`;
