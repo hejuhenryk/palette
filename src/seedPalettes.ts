@@ -1,4 +1,5 @@
 import { PaletteT } from './index.d'
+
 export const initialPalettes: PaletteT[] = [
     {
       paletteName: "Material UI Colors",
