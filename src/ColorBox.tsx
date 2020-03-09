@@ -14,7 +14,7 @@ export const ColorBox: React.FC<ColorBoxPropsT> = props => {
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
-    }, 10000);
+    }, 1500);
   };
   return (
     <ColorBoxStyled backgroud={color}>

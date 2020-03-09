@@ -1,7 +1,7 @@
 import * as chroma from 'chroma.ts'
 import { PaletteT } from './index.d'
 
-type LevelT = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+export type LevelT = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 // enum LT {'50' = 0, '100', '200', '300', '400', '500', '600', '700', '800', '900'};
 // let LL : [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
@@ -15,8 +15,16 @@ type ExtendedColorT = {
 type ExtendedColorsT = {
     [V in LevelT]: ExtendedColorT[]
 }
+export type ExtendedPaletteT = Omit<PaletteT, 'colors'> & {colors: ExtendedColorsT};
 
-export const generatePalette = (initialPalette: PaletteT) => {
+let k : ExtendedPaletteT = {
+    paletteName: 'as',
+    emoji: 'daf',
+    id: '213',
+    colors: {} as ExtendedColorsT
+}
+
+export const generatePalette = (initialPalette: PaletteT): ExtendedPaletteT => {
     const levels: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
     const newPalette = {...initialPalette, colors: {} as ExtendedColorsT}
     for( const lev of levels) {
