@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { ExtendedPaletteT, LevelT } from "./colorHelper";
+import { ExtendedPaletteT, LevelT, ColorModelT } from "./colorHelper";
 import { ColorBox } from "./ColorBox";
 import "rc-slider/assets/index.css";
 import { Navbar } from "./Navbar";
@@ -9,7 +9,6 @@ type PalettePropsT = {
   paletteData: ExtendedPaletteT;
 };
 
-type ColorModelT = "hex" | "rgb" | "rgba";
 
 export const Palette: React.FC<PalettePropsT> = (props) => {
   const [saturation, setSaturation] = useState(500 as LevelT);
@@ -23,6 +22,8 @@ export const Palette: React.FC<PalettePropsT> = (props) => {
         paletteName={props.paletteData.paletteName}
         level={saturation}
         onChange={(value: LevelT) => setSaturation(value)}
+        colorMode={colorModel}
+        colorCodingChangeHandler={setColorModel}
       />
 
       {/* color boxes */}

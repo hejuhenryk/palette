@@ -5,6 +5,9 @@ export type LevelT = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 // enum LT {'50' = 0, '100', '200', '300', '400', '500', '600', '700', '800', '900'};
 // let LL : [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
+export type ColorModelT = "hex" | "rgb" | "rgba";
+
+
 type ExtendedColorT = {
     name: string;
     id: string; 

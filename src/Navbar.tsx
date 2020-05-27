@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Slider from "rc-slider";
-import { LevelT } from "./colorHelper";
+import { LevelT, ColorModelT } from "./colorHelper";
+import { Select, MenuItem } from "@material-ui/core"
 
 type NavbarPropsT = {
   onChange: (value: LevelT) => void;
   level: LevelT;
   paletteName: string;
+  colorMode: ColorModelT;
+  colorCodingChangeHandler: (value: ColorModelT) => void;
 };
 
 export const Navbar: React.FC<NavbarPropsT> = (props) => {
@@ -30,6 +33,13 @@ export const Navbar: React.FC<NavbarPropsT> = (props) => {
       <h3 style={{ position: "relative", textAlign: "center", width: "100%" }}>
         {props.paletteName}
       </h3>
+      <SelectContainer>
+      <Select value={props.colorMode} onChange={(e)=>props.colorCodingChangeHandler(e.target.value as ColorModelT)}>
+          <MenuItem value='hex'>HEX - #ab12ef</MenuItem>
+          <MenuItem value='rgb'>RGB - rgb(10, 10, 10)</MenuItem>
+          <MenuItem value='rgba'>RGBA - rgb(10, 10, 10, 0.7)</MenuItem>
+      </Select>
+      </SelectContainer>
     </NavbarStyled>
   );
 };
@@ -86,4 +96,9 @@ const StyledSlider = styled(Slider)`
   :focus {
     outline: none;
   }
+`;
+
+const SelectContainer = styled.div`
+    width: 100%;
+    padding: 0  .5rem;
 `;

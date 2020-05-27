@@ -9,3 +9,4 @@ export type PaletteT = {
     emoji: string;
     colors: ColorT[]
 }
+
