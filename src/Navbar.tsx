@@ -7,7 +7,6 @@ import { Select, MenuItem } from "@material-ui/core"
 type NavbarPropsT = {
   onChange: (value: LevelT) => void;
   level: LevelT;
-  paletteName: string;
   colorMode: ColorModelT;
   colorCodingChangeHandler: (value: ColorModelT) => void;
 };
@@ -30,9 +29,6 @@ export const Navbar: React.FC<NavbarPropsT> = (props) => {
           } /* {(value: LevelT) => setSaturation(value)} */
         />
       </SliderConteiner>
-      <h3 style={{ position: "relative", textAlign: "center", width: "100%" }}>
-        {props.paletteName}
-      </h3>
       <SelectContainer>
       <Select value={props.colorMode} onChange={(e)=>props.colorCodingChangeHandler(e.target.value as ColorModelT)}>
           <MenuItem value='hex'>HEX - #ab12ef</MenuItem>

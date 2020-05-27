@@ -1,7 +1,6 @@
 import React from "react";
 import { Palette } from "./Palette";
 import { initialPalettes } from "./seedPalettes";
-import { PaletteT } from "./index.d";
 import { ExtendedPaletteT } from './colorHelper'
 import { GlobalStyle } from "./globalStyles";
 import {generatePalette} from './colorHelper'
@@ -21,7 +20,7 @@ export const App = () => {
     <>
       <GlobalStyle />
       {/* <header style={{position: "relative", textAlign: 'center', width: '100%'}}>hello app</header> */}
-      <Palette paletteData={palettes[1]} />
+      <Palette paletteData={palettes[8]} />
     </>
   );
 };
@@ -32,4 +31,4 @@ console.log(    chroma.scale(getColorRange('#bb1299')).mode('lab').colors(10, 'h
 // ["#720059", "#820367", "#920675", "#a20b83", "#b31092", "#c53ea4", "#d774bb", "#e6a4d1", "#f4d1e8", "#ffffff"]
 // ["#ffffff", "#f4d1e8", "#e6a4d1", "#d774bb", "#c53ea4", "#b31092", "#a20b83", "#920675", "#820367", "#720059"]
 
-console.log(generatePalette(initialPalettes[0]))
+console.log(generatePalette(initialPalettes[5]))
