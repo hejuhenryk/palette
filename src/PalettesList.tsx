@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { PaletteT } from './index.d';
+import { MiniPalette } from './MiniPalette';
 
 
 type PalettesListPropsT = {
@@ -10,8 +11,8 @@ type PalettesListPropsT = {
 export const PalettesList: React.FC<PalettesListPropsT> = props => {
 
     return (
-        <div>
-            {props.palettes.map(p=><Link to={`/palette/${p.id}`}>{p.paletteName}<span>{p.emoji}</span> </Link>)}
+    <div style={{textDecoration: "none"}}>
+            {props.palettes.map(p=><MiniPalette palette={p} key={p.id} />)}
         </div>
     )
 };
