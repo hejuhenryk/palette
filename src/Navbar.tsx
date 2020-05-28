@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Slider from "rc-slider";
 import { LevelT, ColorModelT } from "./colorHelper";
 import { Select, MenuItem } from "@material-ui/core"
+import { Link } from "react-router-dom";
 
 type NavbarPropsT = {
   onChange: (value: LevelT) => void;
@@ -15,7 +16,7 @@ export const Navbar: React.FC<NavbarPropsT> = (props) => {
   return (
     <NavbarStyled>
       <Logo>
-        <a href="#">LogoColorPicker</a>
+        <Link to="/">LogoColorPicker</Link>
       </Logo>
       <SliderConteiner>
         <span>Level: {props.level}</span>
