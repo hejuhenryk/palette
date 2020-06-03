@@ -18,7 +18,7 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
         </div>
         <div className="palettes">
           {palettes.map((p) => (
-            <MiniPalette palette={p} key={p.id} onClick={()=>console.log(p.id)} />
+            <MiniPalette palette={p} key={p.id} />
           ))}
         </div>
       </div>

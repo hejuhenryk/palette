@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ColorT } from "./index.d";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { Link } from "react-router-dom";
+import * as chroma from 'chroma.ts';
 
 type ColorBoxPropsT = {
   color: ColorT;
@@ -12,23 +13,27 @@ type ColorBoxPropsT = {
   height?: string;
 };
 
+
+
 export const ColorBox: React.FC<ColorBoxPropsT> = (props) => {
   const { color, name } = props.color;
   const [isCopied, setIsCopied] = useState(false);
+  const isColorBright = chroma.color(color).luminance() > 0.5;
   const copyHandler = () => {
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
     }, 1500);
   };
+
   return (
-    <ColorBoxStyled backgroud={color} height={props.height || "25%"} >
+    <ColorBoxStyled backgroud={color} height={props.height || "25%"} isColorBright={isColorBright} >
       <div className={`overlay-copy${isCopied ? " show" : ""}`} />
       <div className={`copy-msg${isCopied ? " show" : ""}`}>
         <h1>copied</h1>
         <p>{color}</p>
       </div>
-      <CopyContainer>
+      <CopyContainer isColorBright={isColorBright}>
         <span>{name}</span>
         <CopyToClipboard text={color} onCopy={copyHandler}>
           <button>copy</button>
@@ -46,9 +51,10 @@ export const ColorBox: React.FC<ColorBoxPropsT> = (props) => {
   );
 };
 
-const CopyContainer = styled.div`
+const CopyContainer = styled.div<{isColorBright: boolean}>`
   display: flex;
   flex-flow: column-reverse;
+  color: ${p=> p.isColorBright ? "#000000" : "#ffffff"};
 
   button {
     text-transform: uppercase;
@@ -60,9 +66,9 @@ const CopyContainer = styled.div`
     transform: translate(-50%, -50%);
     outline: none;
     background-color: rgba(255, 255, 255, 0.3);
+    color: ${p=> p.isColorBright ? "#000000" : "#ffffff"};
     border: none;
     font-size: 0.7rem;
-    color: white;
     line-height: 1.5rem;
     letter-spacing: 0.08rem;
     opacity: 0;
@@ -76,7 +82,7 @@ const CopyContainer = styled.div`
   }
 `;
 
-const ColorBoxStyled = styled.div<{ backgroud: string, height: string }>`
+const ColorBoxStyled = styled.div<{ backgroud: string, height: string, isColorBright: boolean }>`
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -110,7 +116,7 @@ const ColorBoxStyled = styled.div<{ backgroud: string, height: string }>`
     right: 0;
     left: 0;
     text-transform: uppercase;
-    color: white;
+    color: ${p=> p.isColorBright ? "#000000" : "#ffffff"};
     opacity: 0;
     z-index: -1;
     transform: scale(0.01);
@@ -137,7 +143,7 @@ const ColorBoxStyled = styled.div<{ backgroud: string, height: string }>`
     text-transform: uppercase;
     font-size: 0.8rem;
     padding: 0 0.2rem;
-    color: white;
+    color:  ${p=>p.isColorBright ? "#000000" : "#ffffff"};
     align-self: flex-end;
     background-color: rgba(255, 255, 255, 0.3);
     text-decoration: none;

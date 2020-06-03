@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 type MiniPalettePropsT = {
   palette: PaletteT;
-  onClick: () => void;
+  // onClick: () => void;
 };
 
 export const MiniPalette: React.FC<MiniPalettePropsT> = (props) => {
