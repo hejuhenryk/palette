@@ -6,9 +6,9 @@ export type LevelT = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 // let LL : [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
 export type ColorModelT = "hex" | "rgb" | "rgba";
+export const keys = <T>(object: T) => Object.keys(object) as Array<keyof T>;
 
-
-type ExtendedColorT = {
+export type ExtendedColorT = {
     name: string;
     id: string; 
     hex: string;
@@ -19,13 +19,6 @@ type ExtendedColorsT = {
     [V in LevelT]: ExtendedColorT[]
 }
 export type ExtendedPaletteT = Omit<PaletteT, 'colors'> & {colors: ExtendedColorsT};
-
-let k : ExtendedPaletteT = {
-    paletteName: 'as',
-    emoji: 'daf',
-    id: '213',
-    colors: {} as ExtendedColorsT
-}
 
 export const generatePalette = (initialPalette: PaletteT): ExtendedPaletteT => {
     const levels: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]

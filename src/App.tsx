@@ -4,9 +4,10 @@ import { Palette } from "./Palette";
 import { initialPalettes } from "./seedPalettes";
 import { ExtendedPaletteT } from "./colorHelper";
 import { GlobalStyle } from "./globalStyles";
-import { generatePalette } from "./colorHelper";
+import { generatePalette, LevelT } from "./colorHelper";
 import * as chroma from "chroma.ts";
-import PalettesList from "./PalettesList";
+import { PalettesList } from "./PalettesList";
+import { SingleColorPalette } from "./SingleColorPalette";
 
 const palettesReducer = (state: ExtendedPaletteT[]): ExtendedPaletteT[] => {
   return state;
@@ -17,16 +18,56 @@ export const App = () => {
     palettesReducer,
     initialPalettes.map((p) => generatePalette(p)) as ExtendedPaletteT[]
   );
-  const findPalette = (id: string) => palettes.find(p=>p.id === id);
+
+  const findPalette = (id: string) => {
+    console.log(palettes.find((p) => p.id === id));
+    return palettes.find((p) => p.id === id);
+  };
+  // const findSingleColorPalette = (id: string, colorId: string): void => {
+  //   let palette = palettes.find((p) => p.id === id);
+  //   let singleColor: any[] = [];
+  //   if(palette) {
+  //     for (const saturation in palette.colors ) {
+  //       if (palette.colors.hasOwnProperty(saturation)) {
+  //         singleColor.push(palette.colors[saturation as LevelT].find(c=>c.id === colorId))
+  //       }
+  //     }
+  //   }
+  // }
   return (
     <>
       <GlobalStyle />
       <Switch>
-        <Route exact path="/" render={() => <PalettesList palettes={initialPalettes} />} />
+        <Route
+          exact
+          path="/"
+          render={(routeProps) => <PalettesList palettes={initialPalettes} />}
+        />
+        <Route
+          exact
+          path="/palette/:id/:colorId"
+          render={(routeProps) =>
+            !findPalette(routeProps.match.params.id) ? (
+              <h1>Palette is not fined</h1>
+            ) : (
+              <SingleColorPalette
+                paletteId={routeProps.match.params.id}
+                colorId={routeProps.match.params.colorId}
+                paletteData={findPalette(routeProps.match.params.id)!}
+              />
+            )
+          }
+        />
         <Route
           exact
           path="/palette/:id"
-          render={(routeProps) => findPalette(routeProps.match.params.id) ? <Palette paletteData={findPalette(routeProps.match.params.id)!} /> : <h1>Palette is not fined</h1>}
+          render={(routeProps) =>
+            findPalette(routeProps.match.params.id) ? (
+              <Palette paletteData={findPalette(routeProps.match.params.id)!} />
+            ) : (
+              <h1>Palette is not fined</h1>
+            )
+          }
         />
       </Switch>
     </>

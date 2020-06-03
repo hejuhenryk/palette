@@ -1,47 +1,80 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Slider from "rc-slider";
 import { LevelT, ColorModelT } from "./colorHelper";
-import { Select, MenuItem } from "@material-ui/core"
+import { Select, MenuItem, Snackbar, IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+
 import { Link } from "react-router-dom";
 
 type NavbarPropsT = {
-  onChange: (value: LevelT) => void;
-  level: LevelT;
+  onChange?: (value: LevelT) => void;
+  level?: LevelT;
   colorMode: ColorModelT;
   colorCodingChangeHandler: (value: ColorModelT) => void;
 };
 
 export const Navbar: React.FC<NavbarPropsT> = (props) => {
+    const [snackbarInfo, setSnackbarInfo] = useState("");
+    
+    const colorCodingChangeHandler = (colorMode: ColorModelT) => {
+        props.colorCodingChangeHandler(colorMode);
+        setSnackbarInfo(`Color format is set to ${colorMode.toLocaleUpperCase()}`);
+    }
+
+
   return (
     <NavbarStyled>
       <Logo>
         <Link to="/">LogoColorPicker</Link>
       </Logo>
-      <SliderConteiner>
-        <span>Level: {props.level}</span>
-        <StyledSlider
-          min={100}
-          max={900}
-          step={100}
-          defaultValue={props.level}
-          onChange={
-            props.onChange
-          } /* {(value: LevelT) => setSaturation(value)} */
-        />
-      </SliderConteiner>
+      {props.level && (
+        <SliderConteiner>
+          <span>Level: {props.level}</span>
+          <StyledSlider
+            min={100}
+            max={900}
+            step={100}
+            defaultValue={props.level}
+            onChange={
+              props.onChange
+            } /* {(value: LevelT) => setSaturation(value)} */
+          />
+        </SliderConteiner>
+      )}
       <SelectContainer>
-      <Select value={props.colorMode} onChange={(e)=>props.colorCodingChangeHandler(e.target.value as ColorModelT)}>
-          <MenuItem value='hex'>HEX - #ab12ef</MenuItem>
-          <MenuItem value='rgb'>RGB - rgb(10, 10, 10)</MenuItem>
-          <MenuItem value='rgba'>RGBA - rgb(10, 10, 10, 0.7)</MenuItem>
-      </Select>
+        <Select
+          value={props.colorMode}
+          onChange={(e) =>
+            colorCodingChangeHandler(e.target.value as ColorModelT)
+          }
+        >
+          <MenuItem value="hex">HEX - #ab12ef</MenuItem>
+          <MenuItem value="rgb">RGB - rgb(10, 10, 10)</MenuItem>
+          <MenuItem value="rgba">RGBA - rgb(10, 10, 10, 0.7)</MenuItem>
+        </Select>
       </SelectContainer>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={snackbarInfo !== ""}
+        onClose={() => setSnackbarInfo("")}
+        message={<span id="message-id">{snackbarInfo}</span>}
+        ContentProps={{
+          "aria-describedby": "message-id",
+        }}
+        action={[
+          <IconButton onClick={() => setSnackbarInfo("")} color="inherit" key="close" aria-label="close">
+            <CloseIcon />
+          </IconButton>,
+        ]}
+        autoHideDuration={3000}
+      />
     </NavbarStyled>
   );
 };
 
 const NavbarStyled = styled.header`
+  width: 100%;
   display: flex;
   justify-content: space-between;
 `;
@@ -61,7 +94,7 @@ const SliderConteiner = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 0 .5rem;
+  margin: 0 0.5rem;
 `;
 
 const StyledSlider = styled(Slider)`
@@ -96,6 +129,8 @@ const StyledSlider = styled(Slider)`
 `;
 
 const SelectContainer = styled.div`
-    width: 100%;
-    padding: 0  .5rem;
+  width: 100%;
+  padding: 0 0.5rem;
+  display: flex; 
+  justify-content: flex-end;
 `;
