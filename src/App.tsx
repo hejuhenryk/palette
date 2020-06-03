@@ -8,6 +8,7 @@ import { generatePalette, LevelT } from "./colorHelper";
 // import * as chroma from "chroma.ts";
 import { PalettesList } from "./PalettesList";
 import { SingleColorPalette } from "./SingleColorPalette";
+import { NewPaletteForm } from "./NewPaletteForm";
 
 const palettesReducer = (state: ExtendedPaletteT[]): ExtendedPaletteT[] => {
   return state;
@@ -54,6 +55,11 @@ export const App = () => {
               <h1>Palette is not fined</h1>
             )
           }
+        />
+        <Route
+          exact
+          path="/new"
+          render={() => <NewPaletteForm />        }
         />
       </Switch>
     </>

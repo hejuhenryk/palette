@@ -35,7 +35,6 @@ export const Palette: React.FC<PalettePropsT> = (props) => {
       </div>
       {/* footer */}
           <PaletteFooter paletteName={paletteName} emoji={emoji} />
-      />
     </PaletteStyled>
   );
 };

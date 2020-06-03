@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { PaletteT } from "./index.d";
 import { MiniPalette } from "./MiniPalette";
+import { Link } from "react-router-dom";
 
 type PalettesListPropsT = {
   palettes: PaletteT[];
@@ -14,7 +15,7 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
       <div className="container">
         <div className="nav">
           <h3>Palletes</h3>
-          <h3>create new palette</h3>
+          <Link to="/new">create new palette</Link>
         </div>
         <div className="palettes">
           {palettes.map((p) => (
@@ -47,6 +48,11 @@ const ListPage = styled.div`
     justify-content: space-between;
     color: white;
     font-weight: 700;
+    padding: 0 1rem;
+    a {
+      color: white;
+      text-decoration: none;
+    }
   }
   .palettes {
     width: 100%;
