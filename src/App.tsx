@@ -4,7 +4,7 @@ import { Palette } from "./Palette";
 import { initialPalettes } from "./seedPalettes";
 import { ExtendedPaletteT } from "./colorHelper";
 import { GlobalStyle } from "./globalStyles";
-import { generatePalette, LevelT } from "./colorHelper";
+import { generatePalette } from "./colorHelper";
 // import * as chroma from "chroma.ts";
 import { PalettesList } from "./PalettesList";
 import { SingleColorPalette } from "./SingleColorPalette";
@@ -15,7 +15,7 @@ const palettesReducer = (state: ExtendedPaletteT[]): ExtendedPaletteT[] => {
 };
 
 export const App = () => {
-  const [palettes, dispPalettes] = React.useReducer(
+  const [palettes, /* dispPalettes */] = React.useReducer(
     palettesReducer,
     initialPalettes.map((p) => generatePalette(p)) as ExtendedPaletteT[]
   );
