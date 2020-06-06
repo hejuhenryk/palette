@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { IconButton } from '@material-ui/core'
 import DelateIcon from '@material-ui/icons/Delete'
+import { SortableElement } from 'react-sortable-hoc'
 
 type Props = {
     color: string;
@@ -9,7 +10,7 @@ type Props = {
     handlerRemove: (id: string)=>void;
 }
 
-export const DraggableColorBox: React.FC<Props> = ({color, name, handlerRemove}) => {
+const DraggableColorBox = SortableElement(({color, name, handlerRemove}: Props) => {
     return (
         <ColorBox color={color}>
             <span>
@@ -18,7 +19,8 @@ export const DraggableColorBox: React.FC<Props> = ({color, name, handlerRemove})
             </span>
         </ColorBox>
     )
-}
+    
+})
 
 const ColorBox = styled.div<{color: string}>`
     background-color: ${p=>p.color};
@@ -39,3 +41,5 @@ const ColorBox = styled.div<{color: string}>`
         };
     };
 `
+
+export  {DraggableColorBox}

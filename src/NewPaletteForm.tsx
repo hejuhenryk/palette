@@ -18,6 +18,8 @@ import { DraggableColorBox } from "./DraggableColorBox";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { ColorT, PaletteT } from "./index.d";
 import { useHistory } from "react-router-dom";
+import { DraggableColorList } from "./DraggableColorList";
+import { arrayMove } from "react-sortable-hoc";
 
 const drawerWidth = "50%";
 const appBarHeight = "64px";
@@ -148,7 +150,11 @@ export const NewPaletteForm: React.FC<Props> = ({
     addPalette(newPalette);
     history.push("/");
   };
-
+  const onSortEnd = ({oldIndex, newIndex}: {oldIndex: number, newIndex: number}) => {
+    setPalette(
+       arrayMove(palette, oldIndex, newIndex)
+    );
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -263,14 +269,8 @@ export const NewPaletteForm: React.FC<Props> = ({
         })}
       >
         <div className={classes.drawerHeader} />
-        {palette.map((c) => (
-          <DraggableColorBox
-            color={c.color}
-            name={c.name}
-            key={c.name + c.color}
-            handlerRemove={handleRemove}
-          />
-        ))}
+        <DraggableColorList colors={palette} handleRemove={handleRemove} axis="xy" onSortEnd={onSortEnd} />
+
       </main>
     </div>
   );
