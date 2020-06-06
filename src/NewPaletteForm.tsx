@@ -106,7 +106,7 @@ export const NewPaletteForm: React.FC<Props> = ({
   const [newColor, setNewColor] = useState(initailColor.color);
   const [colorName, setColorName] = useState("");
 
-  const [palette, setPalette] = useState([] as ColorT[]);
+  const [palette, setPalette] = useState([{name: "red", color: "blue"}] as ColorT[]);
   const [paletteName, setPaletteName] = useState("");
 
   React.useEffect(() => {
