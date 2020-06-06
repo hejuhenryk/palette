@@ -2,25 +2,29 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Palette } from "./Palette";
 import { initialPalettes } from "./seedPalettes";
-import { ExtendedPaletteT } from "./colorHelper";
 import { GlobalStyle } from "./globalStyles";
-import { generatePalette } from "./colorHelper";
+import { extendPalette } from "./colorHelper";
 // import * as chroma from "chroma.ts";
 import { PalettesList } from "./PalettesList";
 import { SingleColorPalette } from "./SingleColorPalette";
 import { NewPaletteForm } from "./NewPaletteForm";
+import { PaletteT } from "./index.d";
 
-const palettesReducer = (state: ExtendedPaletteT[]): ExtendedPaletteT[] => {
-  return state;
-};
+// const palettesReducer = (state: ExtendedPaletteT[]): ExtendedPaletteT[] => {
+//   return state;
+// };
 
 export const App = () => {
-  const [palettes, /* dispPalettes */] = React.useReducer(
-    palettesReducer,
-    initialPalettes.map((p) => generatePalette(p)) as ExtendedPaletteT[]
-  );
+  // const [palettes, /* dispPalettes */] = React.useReducer(
+  //   palettesReducer,
+  //   initialPalettes.map((p) => extendPalette(p)) as ExtendedPaletteT[]
+  // );
 
+  const [palettes, setPalettes] = React.useState(initialPalettes/* .map((p) => extendPalette(p)) */)
   const findPalette = (id: string) => palettes.find((p) => p.id === id);
+  const handlerAddPalette = (p: PaletteT) => {
+    setPalettes([...palettes, p])
+  }
   return (
     <>
       <GlobalStyle />
@@ -28,7 +32,7 @@ export const App = () => {
         <Route
           exact
           path="/"
-          render={(routeProps) => <PalettesList palettes={initialPalettes} />}
+          render={() => <PalettesList palettes={palettes} />}
         />
         <Route
           exact
@@ -40,7 +44,7 @@ export const App = () => {
               <SingleColorPalette
                 paletteId={routeProps.match.params.id}
                 colorId={routeProps.match.params.colorId}
-                paletteData={findPalette(routeProps.match.params.id)!}
+                paletteData={extendPalette(findPalette(routeProps.match.params.id)!)}
               />
             )
           }
@@ -50,7 +54,7 @@ export const App = () => {
           path="/palette/:id"
           render={(routeProps) =>
             findPalette(routeProps.match.params.id) ? (
-              <Palette paletteData={findPalette(routeProps.match.params.id)!} />
+              <Palette paletteData={extendPalette(findPalette(routeProps.match.params.id)!)} />
             ) : (
               <h1>Palette is not fined</h1>
             )
@@ -59,7 +63,7 @@ export const App = () => {
         <Route
           exact
           path="/new"
-          render={() => <NewPaletteForm />        }
+          render={() => <NewPaletteForm paletteNames={palettes.map(p=>p.paletteName)} addPalette={handlerAddPalette} />}
         />
       </Switch>
     </>
@@ -78,4 +82,4 @@ export const App = () => {
 // ["#720059", "#820367", "#920675", "#a20b83", "#b31092", "#c53ea4", "#d774bb", "#e6a4d1", "#f4d1e8", "#ffffff"]
 // ["#ffffff", "#f4d1e8", "#e6a4d1", "#d774bb", "#c53ea4", "#b31092", "#a20b83", "#920675", "#820367", "#720059"]
 
-// console.log(generatePalette(initialPalettes[5]));
+// console.log(extendPalette(initialPalettes[5]));

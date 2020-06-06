@@ -20,7 +20,7 @@ type ExtendedColorsT = {
 }
 export type ExtendedPaletteT = Omit<PaletteT, 'colors'> & {colors: ExtendedColorsT};
 
-export const generatePalette = (initialPalette: PaletteT): ExtendedPaletteT => {
+export const extendPalette = (initialPalette: PaletteT): ExtendedPaletteT => {
     const levels: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
     const newPalette = {...initialPalette, colors: {} as ExtendedColorsT}
     for( const lev of levels) {

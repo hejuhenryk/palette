@@ -1,36 +1,25 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import {
-  makeStyles,
-  //   useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-// import List from '@material-ui/core/List';
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-// import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import InboxIcon from '@material-ui/icons/MoveToInbox';
-// import MailIcon from '@material-ui/icons/Mail';
 
-import { SketchPicker, ColorResult, ChromePicker } from "react-color";
+import { ColorResult, ChromePicker } from "react-color";
 import styled from "styled-components";
 import { DraggableColorBox } from "./DraggableColorBox";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-// import { keys } from "./colorHelper";
+import { ColorT, PaletteT } from "./index.d";
+import { useHistory } from "react-router-dom";
 
-const drawerWidth = "20%";
+const drawerWidth = "50%";
 const appBarHeight = "64px";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -62,12 +51,12 @@ const useStyles = makeStyles((theme: Theme) =>
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "centre",
     },
     drawerPaper: {
       width: drawerWidth,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "centre",
     },
     drawerHeader: {
       display: "flex",
@@ -97,46 +86,43 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type Color = {
-  name: string;
-  color: ColorResult;
+const initailColor: ColorT = {
+  name: "initialGreen",
+  color: "#7ed321",
 };
 
-export const NewPaletteForm = () => {
+type Props = {
+  paletteNames: string[];
+  addPalette: (p: PaletteT) => void;
+};
+
+export const NewPaletteForm: React.FC<Props> = ({
+  paletteNames,
+  addPalette,
+}) => {
   const classes = useStyles();
-  //   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-  const [newColor, setNewColor] = React.useState({
-    hex: "#7ed321",
-    hsl: {
-      h: 88.65168539325842,
-      s: 0.7295081967213115,
-      l: 0.4784313725490196,
-      a: 1,
-    },
-    hsv: {
-      h: 88.65168539325842,
-      s: 0.8436018957345972,
-      v: 0.8274509803921568,
-      a: 1,
-    },
-    oldHue: 250,
-    rgb: { r: 126, g: 211, b: 33, a: 1 },
-    source: "hex",
-  } as ColorResult);
-  const [palette, setPalette] = useState([] as Color[]);
+  const history = useHistory();
+  const [open, setOpen] = useState(true);
+  const [newColor, setNewColor] = useState(initailColor.color);
   const [colorName, setColorName] = useState("");
 
+  const [palette, setPalette] = useState([] as ColorT[]);
+  const [paletteName, setPaletteName] = useState("");
+
   React.useEffect(() => {
-    ValidatorForm.addValidationRule("isColorNameUnique", value => {
+    ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
       return palette.every(
         ({ name }) => name.toLowerCase() !== value.toLowerCase()
       );
     });
-    ValidatorForm.addValidationRule("isColorUnique", value => {
+    ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
+      return paletteNames.every(
+        (name) => name.toLowerCase() !== value.toLowerCase()
+      );
+    });
+    ValidatorForm.addValidationRule("isColorUnique", (value) => {
       return palette.every(
-        ({ color }) =>
-          color.hex.toLowerCase() !== newColor.hex.toLowerCase()
+        ({ color }) => color.toLowerCase() !== newColor.toLowerCase()
       );
     });
   });
@@ -149,11 +135,26 @@ export const NewPaletteForm = () => {
     setOpen(false);
   };
 
+  const handleRemove = (color: string) => {
+    setPalette((palette) => palette.filter((c) => c.color !== color));
+  };
+  const handleAddPalette = () => {
+    const newPalette: PaletteT = {
+      paletteName: paletteName,
+      id: paletteName.toLowerCase().replace(/ /g, "-"),
+      emoji: ":fire",
+      colors: palette,
+    };
+    addPalette(newPalette);
+    history.push("/");
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
         position="fixed"
+        color="default"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -171,6 +172,28 @@ export const NewPaletteForm = () => {
           <Typography variant="h6" noWrap>
             Palette - Create your own one!
           </Typography>
+
+
+
+          <ValidatorForm onSubmit={(e)=>handleAddPalette()} onError={(errors) => console.log(errors)} style={{display: "flex", flexDirection: "row"}}>
+            <TextValidator
+              label="New Palette"
+              onChange={(e) =>
+                setPaletteName((e.target as HTMLInputElement).value)
+              }
+              name="palette"
+              value={paletteName}
+              validators={["required", "isPaletteNameUnique"]}
+              errorMessages={[
+                "this field is required",
+                "palette name is not unik",
+              ]}
+            />
+            <Button type="submit" variant="contained" >Save Palette</Button>
+          </ValidatorForm>
+
+
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -196,14 +219,7 @@ export const NewPaletteForm = () => {
             ADD
           </Button>
         </span>
-        <SketchPickerStyled
-          color={newColor.hex}
-          onChangeComplete={(newColor) => setNewColor(newColor)}
-        />
-        <ChromePickerStyled
-          color={newColor.hex}
-          onChangeComplete={(newColor) => setNewColor(newColor)}
-        />
+
         <ValidatorForm
           //   ref = {formRef}
           onSubmit={() => {
@@ -212,18 +228,29 @@ export const NewPaletteForm = () => {
           }}
           onError={(errors) => console.log(errors)}
         >
+          <ChromePickerStyled
+            color={newColor}
+            onChangeComplete={(pickedColor: ColorResult) =>
+              setNewColor(pickedColor.hex)
+            }
+            disableAlpha={true}
+          />
           <TextValidator
             label="New Color"
             onChange={(e) => setColorName((e.target as HTMLInputElement).value)}
             name="color"
             value={colorName}
             validators={["required", "isColorUnique", "isColorNameUnique"]}
-            errorMessages={["this field is required", "color is not unik", "color name is not unik"]}
+            errorMessages={[
+              "this field is required",
+              "color is not unik",
+              "color name is not unik",
+            ]}
           />
           <Button
             variant="contained"
             size="medium"
-            style={{ backgroundColor: newColor.hex }}
+            style={{ backgroundColor: newColor }}
             type="submit"
           >
             ADD
@@ -237,17 +264,18 @@ export const NewPaletteForm = () => {
       >
         <div className={classes.drawerHeader} />
         {palette.map((c) => (
-          <DraggableColorBox color={c.color.hex} name={c.name} key={c.name + c.color.hex}  />
+          <DraggableColorBox
+            color={c.color}
+            name={c.name}
+            key={c.name + c.color}
+            handlerRemove={handleRemove}
+          />
         ))}
       </main>
     </div>
   );
-}; 
+};
 
-const SketchPickerStyled = styled(SketchPicker)`
-  align-self: center;
-  margin: 0.5rem;
-`;
 const ChromePickerStyled = styled(ChromePicker)`
   align-self: center;
   margin: 0.5rem;

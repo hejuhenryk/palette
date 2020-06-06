@@ -4,6 +4,7 @@ import styled from 'styled-components'
 type Props = {
     color: string;
     name: string;
+    handlerRemove: (id: string)=>void;
 }
 
 export const DraggableColorBox: React.FC<Props> = ({color, name}) => {
