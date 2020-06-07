@@ -7,7 +7,7 @@ import { SortableElement } from 'react-sortable-hoc'
 type Props = {
     color: string;
     name: string;
-    handlerRemove: (id: string)=>void;
+    handlerRemove: (c: string)=>void;
 }
 
 const DraggableColorBox = SortableElement(({color, name, handlerRemove}: Props) => {
@@ -19,7 +19,7 @@ const DraggableColorBox = SortableElement(({color, name, handlerRemove}: Props) 
             </span>
         </ColorBox>
     )
-    
+
 })
 
 const ColorBox = styled.div<{color: string}>`

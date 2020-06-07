@@ -14,14 +14,14 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
 import { ColorResult, ChromePicker } from "react-color";
 import styled from "styled-components";
-import { DraggableColorBox } from "./DraggableColorBox";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { ColorT, PaletteT } from "./index.d";
 import { useHistory } from "react-router-dom";
 import { DraggableColorList } from "./DraggableColorList";
-import { arrayMove } from "react-sortable-hoc";
+import arrayMove from "array-move";
+import { initialPalettes } from "./seedPalettes";
 
-const drawerWidth = "50%";
+const drawerWidth = "20%";
 const appBarHeight = "64px";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -108,13 +108,17 @@ export const NewPaletteForm: React.FC<Props> = ({
   const [newColor, setNewColor] = useState(initailColor.color);
   const [colorName, setColorName] = useState("");
 
-  const [palette, setPalette] = useState([{name: "red", color: "blue"}] as ColorT[]);
+  const [palette, setPalette] = useState(initialPalettes[0].colors);
   const [paletteName, setPaletteName] = useState("");
+
+  const isPaletteFull = palette.length >= 20;
+  const buttonColor = isPaletteFull ? "default" : "primary" ;
 
   React.useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
       return palette.every(
         ({ name }) => name.toLowerCase() !== value.toLowerCase()
+      
       );
     });
     ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
@@ -138,6 +142,7 @@ export const NewPaletteForm: React.FC<Props> = ({
   };
 
   const handleRemove = (color: string) => {
+    console.log(color)
     setPalette((palette) => palette.filter((c) => c.color !== color));
   };
   const handleAddPalette = () => {
@@ -150,6 +155,20 @@ export const NewPaletteForm: React.FC<Props> = ({
     addPalette(newPalette);
     history.push("/");
   };
+  const handleClearPalette = () => {
+    setPalette([])
+  }
+  const addNewColor = (c: ColorT) => {
+    setPalette([...palette, { name: c.name, color: c.color }]);
+    setColorName("");
+  }
+  const addRandomColor = (): void => {
+    const paletteNum = Math.floor(Math.random() * (initialPalettes.length - 1))
+    const colorNum = Math.floor(Math.random() * (initialPalettes[paletteNum].colors.length - 1))
+    const color = initialPalettes[paletteNum].colors[colorNum]
+    const newColor =  palette.every(c=>c.color!==color.color && c.name!==color.name) ? color : addRandomColor()
+    if (newColor) addNewColor(newColor);
+  }
   const onSortEnd = ({oldIndex, newIndex}: {oldIndex: number, newIndex: number}) => {
     setPalette(
        arrayMove(palette, oldIndex, newIndex)
@@ -195,7 +214,8 @@ export const NewPaletteForm: React.FC<Props> = ({
                 "palette name is not unik",
               ]}
             />
-            <Button type="submit" variant="contained" >Save Palette</Button>
+            <Button type="submit" variant="contained" color="primary" >Save Palette</Button>
+            <Button onClick={()=>history.push("/")} variant="contained" color="secondary" >go back</Button>
           </ValidatorForm>
 
 
@@ -218,20 +238,17 @@ export const NewPaletteForm: React.FC<Props> = ({
         </div>
         <Divider />
         <span>
-          <Button variant="contained" color="primary" size="medium">
-            ADD
+          <Button onClick={handleClearPalette} variant="contained" color="secondary" size="medium" style={{width: "50%"}}>
+            clear palette
           </Button>
-          <Button variant="contained" color="primary" size="medium">
-            ADD
+          <Button onClick={addRandomColor} disabled={isPaletteFull} variant="contained" color={buttonColor} size="medium" style={{width: "50%"}}>
+            random color
           </Button>
         </span>
 
         <ValidatorForm
           //   ref = {formRef}
-          onSubmit={() => {
-            setPalette([...palette, { name: colorName, color: newColor }]);
-            setColorName("");
-          }}
+          onSubmit={()=>addNewColor({color: newColor, name: colorName})}
           onError={(errors) => console.log(errors)}
         >
           <ChromePickerStyled
@@ -256,8 +273,10 @@ export const NewPaletteForm: React.FC<Props> = ({
           <Button
             variant="contained"
             size="medium"
-            style={{ backgroundColor: newColor }}
+            style={{ backgroundColor: isPaletteFull ? "lightGrey" : newColor }}
             type="submit"
+            disabled={isPaletteFull}
+            color={buttonColor}
           >
             ADD
           </Button>

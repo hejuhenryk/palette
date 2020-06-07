@@ -1,6 +1,6 @@
 import React from "react";
 import { DraggableColorBox } from "./DraggableColorBox";
-import { arrayMove, SortableContainer } from 'react-sortable-hoc';
+import { SortableContainer } from 'react-sortable-hoc';
 
 import { ColorT } from "./index.d";
 import styled from "styled-components";

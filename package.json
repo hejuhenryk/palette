@@ -9,6 +9,7 @@
     "@types/react-color": "^3.0.2",
     "@types/react-material-ui-form-validator": "^2.0.5",
     "@types/react-router-dom": "^5.1.5",
+    "array-move": "^2.2.2",
     "chroma.ts": "^1.0.8",
     "rc-slider": "^9.2.2",
     "react": "^16.13.0",
