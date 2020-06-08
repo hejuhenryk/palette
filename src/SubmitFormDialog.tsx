@@ -74,7 +74,7 @@ export const SubmitFormDialog: React.FC<Props> = ({
           )}
           <ValidatorForm
             onSubmit={handleSubmit}
-            onError={(errors) => console.log(errors)}
+            onError={(errors) => console.log(errors, "validForm")}
             style={{ display: "flex", flexDirection: "column" }}
           >
             <TextValidator

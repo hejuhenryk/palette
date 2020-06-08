@@ -99,7 +99,6 @@ export const NewPaletteForm: React.FC<Props> = ({
     setPalette((palette) => palette.filter((c) => c.color !== color));
   };
   const handleAddPalette = (name: string, emoji?: string) => {
-    console.log("jo")
     const newPalette: PaletteT = {
       paletteName: name,
       id: name.toLowerCase().replace(/ /g, "-"),

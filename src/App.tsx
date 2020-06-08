@@ -9,6 +9,7 @@ import { PalettesList } from "./PalettesList";
 import { SingleColorPalette } from "./SingleColorPalette";
 import { NewPaletteForm } from "./NewPaletteForm";
 import { PaletteT } from "./index.d";
+import { usePersistentState } from "./usePersistentState";
 
 // const palettesReducer = (state: ExtendedPaletteT[]): ExtendedPaletteT[] => {
 //   return state;
@@ -20,10 +21,13 @@ export const App = () => {
   //   initialPalettes.map((p) => extendPalette(p)) as ExtendedPaletteT[]
   // );
 
-  const [palettes, setPalettes] = React.useState(initialPalettes/* .map((p) => extendPalette(p)) */)
+  const [palettes, setPalettes] = usePersistentState("palettes_hejuhenryk_2020", initialPalettes/* .map((p) => extendPalette(p)) */)
   const findPalette = (id: string) => palettes.find((p) => p.id === id);
-  const handlerAddPalette = (p: PaletteT) => {
+  const handleAddPalette = (p: PaletteT) => {
     setPalettes([...palettes, p])
+  }
+  const handleRemovePalette = (id: string) => {
+    setPalettes(palettes.filter(p=>p.id!==id))
   }
   return (
     <>
@@ -32,7 +36,7 @@ export const App = () => {
         <Route
           exact
           path="/"
-          render={() => <PalettesList palettes={palettes} />}
+          render={() => <PalettesList palettes={palettes} removePalette={handleRemovePalette}/>}
         />
         <Route
           exact
@@ -63,7 +67,7 @@ export const App = () => {
         <Route
           exact
           path="/new"
-          render={() => <NewPaletteForm paletteNames={palettes.map(p=>p.paletteName)} addPalette={handlerAddPalette} />}
+          render={() => <NewPaletteForm paletteNames={palettes.map(p=>p.paletteName)} addPalette={handleAddPalette} />}
         />
       </Switch>
     </>

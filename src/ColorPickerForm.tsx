@@ -48,7 +48,7 @@ export const ColorPickerForm: React.FC<Props> = ({
     <DrowerContainer>
       <ValidatorForm
         onSubmit={handleSubmit}
-        onError={(errors) => console.log(errors)}
+        onError={(errors) => console.log(errors, "validForm")}
         className="color_form"
       >
         <ChromePickerStyled

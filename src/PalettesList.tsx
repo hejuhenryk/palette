@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 
 type PalettesListPropsT = {
   palettes: PaletteT[];
+  removePalette: (id: string)=>void
 };
 
 export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
-  const { palettes } = props;
+  const { palettes, removePalette } = props;
   return (
     <ListPage>
       <div className="container">
@@ -19,7 +20,7 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
         </div>
         <div className="palettes">
           {palettes.map((p) => (
-            <MiniPalette palette={p} key={p.id} />
+            <MiniPalette palette={p} key={p.id} removePalette={removePalette}/>
           ))}
         </div>
       </div>

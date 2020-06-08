@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { PaletteT } from "./index.d";
 import { useHistory } from "react-router-dom";
-
+import { IconButton } from "@material-ui/core";      
+import DelateIcon from "@material-ui/icons/Delete";      
 type MiniPalettePropsT = {
   palette: PaletteT;
-  // onClick: () => void;
+  removePalette: (id: string)=>void;
 };
 
 export const MiniPalette: React.FC<MiniPalettePropsT> = (props) => {
@@ -16,7 +17,10 @@ export const MiniPalette: React.FC<MiniPalettePropsT> = (props) => {
   };
 
   return (
+    <Container>
+    <IconButton className="delateBtn" edge="end" onClick={()=>props.removePalette(id)} ><DelateIcon /></IconButton>
     <MiniPaletteStyled onClick={() => redirectToPalette(id)}>
+      
       <div className="colors">
         {colors.map((c) => (
           <Color key={c.color} color={c.color} />
@@ -27,8 +31,31 @@ export const MiniPalette: React.FC<MiniPalettePropsT> = (props) => {
         <span>{emoji}</span>
       </h4>
     </MiniPaletteStyled>
+    </Container>
   );
 };
+const Container = styled.div`
+  position: relative;
+  overflow: hidden;
+  &:hover .delateBtn{
+    opacity: 1;
+  }
+  .delateBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2rem;
+    height: 2rem;
+    margin: .35rem;
+    z-index: 10;
+    cursor: default;
+    opacity: 0;
+    transition: all .2s ease-in-out;
+    &:hover {
+      background-color: #ff000099;
+    }
+  }
+`;
 
 const MiniPaletteStyled = styled.div`
   border: solid 2px #333;
@@ -38,6 +65,7 @@ const MiniPaletteStyled = styled.div`
   flex-direction: column;
   padding: 3px;
   cursor: pointer;
+
   .colors {
     display: flex;
     width: 100%;
