@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { drawerWidth, appBarHeight } from "./NewPaletteForm";
 import { useHistory } from "react-router-dom";
 import { makeStyles, Theme, createStyles } from "@material-ui/core";
@@ -17,7 +16,7 @@ import { SubmitFormDialog } from "./SubmitFormDialog";
 
 type Props = {
   paletteNames: string[];
-  addPalette: (name: string) => void;
+  addPalette: (name: string, emiji?: string) => void;
   open: boolean;
   handleDrawerOpen: () => void;
 };
@@ -57,8 +56,6 @@ export const PaletteFormNav: React.FC<Props> = ({
   const classes = useStyles();
   const history = useHistory();
 
-
-
   return (
     <>
       <CssBaseline />
@@ -82,16 +79,19 @@ export const PaletteFormNav: React.FC<Props> = ({
           <Typography variant="h6" noWrap>
             Palette - Create your own one!
           </Typography>
-
-
-          <SubmitFormDialog addPalette={addPalette} paletteNames={paletteNames} />
-          <Button
-            onClick={() => history.push("/")}
-            variant="contained"
-            color="secondary"
-          >
-            go back
-          </Button>
+          <Buttons>
+            <SubmitFormDialog
+              addPalette={addPalette}
+              paletteNames={paletteNames}
+            />
+            <Button
+              onClick={() => history.push("/")}
+              variant="contained"
+              color="secondary"
+            >
+              go back
+            </Button>
+          </Buttons>
         </ToolbarStyled>
       </AppBar>
     </>
@@ -103,3 +103,9 @@ const ToolbarStyled = styled(Toolbar)`
   justify-content: space-between;
 `;
 
+const Buttons = styled.div`
+  display: flex;
+  button {
+    margin-left: .3rem;
+  }
+`;

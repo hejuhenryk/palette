@@ -28,7 +28,6 @@ export const SingleColorPalette: React.FC<SingleColorPalettePropsT> = ({
       .slice(1);
 
   const shades = getShades(colorId, paletteData);
-  console.log(shades);
 
   return (
     <PalettePage>

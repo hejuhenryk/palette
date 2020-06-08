@@ -1,7 +1,6 @@
 import React from "react";
-
+import Picker from "emoji-picker-react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -10,7 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 type Props = {
-  addPalette: (name: string) => void;
+  addPalette: (name: string, emoji?: string) => void;
   paletteNames: string[];
 };
 
@@ -19,6 +18,7 @@ export const SubmitFormDialog: React.FC<Props> = ({
   paletteNames,
 }) => {
   const [open, setOpen] = React.useState(false);
+  const [emoji, setEmoji] = React.useState("");
   const [paletteName, setPaletteName] = React.useState("");
 
   React.useEffect(() => {
@@ -38,10 +38,14 @@ export const SubmitFormDialog: React.FC<Props> = ({
     setPaletteName("");
   };
 
+  const handleSubmit = () => {
+    addPalette(paletteName, emoji);
+  }
+
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Save Palette
+        Save Palette {emoji}
       </Button>
       <Dialog
         open={open}
@@ -50,14 +54,32 @@ export const SubmitFormDialog: React.FC<Props> = ({
       >
         <DialogTitle id="form-dialog-title">Save your palette</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText> */}
+          <DialogContentText>
+            Find en emoji for your Palette and,
+            <br />
+            give your palette a unik name.
+          </DialogContentText>{" "}
+          {emoji === "" ? (
+            <Picker onEmojiClick={(e, data) => setEmoji(data.emoji)} />
+          ) : (
+            <Button
+              style={{ width: "100%", fontSize: "1.3rem" }}
+              variant="outlined"
+              size="large"
+              color="primary"
+              onClick={() => setEmoji("")}
+            >
+              Change {emoji}{" "}
+            </Button>
+          )}
           <ValidatorForm
-            onSubmit={() => addPalette(paletteName)}
+            onSubmit={handleSubmit}
             onError={(errors) => console.log(errors)}
             style={{ display: "flex", flexDirection: "column" }}
           >
             <TextValidator
-              label="New Palette"
+              label="New Palette Name"
+              placeholder="New Palette Name"
               onChange={(e) =>
                 setPaletteName((e.target as HTMLInputElement).value)
               }
@@ -69,17 +91,19 @@ export const SubmitFormDialog: React.FC<Props> = ({
                 "palette name is not unik",
               ]}
             />
-            {/* <Button type="submit" variant="contained" color="primary">
-              Save Palette
-            </Button> */}
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} type="submit" color="primary" variant="contained">
-            Save Palette{" "}
-          </Button>
-        </DialogActions>
+            <DialogActions>
+              <Button onClick={handleClose} color="secondary">
+                Cancel
+              </Button>
+              <Button
+                // onClick={handleClose}
+                type="submit"
+                color="primary"
+                variant="contained"
+              >
+                Save Palette{" "}
+              </Button>
+            </DialogActions>
           </ValidatorForm>
         </DialogContent>
       </Dialog>
