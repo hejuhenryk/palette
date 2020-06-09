@@ -198,6 +198,7 @@ export const NewPaletteForm: React.FC<Props> = ({
           handleRemove={handleRemove}
           axis="xy"
           onSortEnd={onSortEnd}
+          distance={10}
         />
       </main>
     </div>
