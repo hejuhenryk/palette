@@ -50,7 +50,7 @@ export const SubmitFormDialog: React.FC<Props> = ({
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby="save-new-palette"
       >
         <DialogTitle id="form-dialog-title">Save your palette</DialogTitle>
         <DialogContent>

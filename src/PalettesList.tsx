@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { device } from "./media";
 import Icon from "@material-ui/core/Icon";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { ConfirmRemoveDialog } from "./ConfirmRemoveDialog";
 
 type PalettesListPropsT = {
   palettes: PaletteT[];
@@ -14,7 +15,25 @@ type PalettesListPropsT = {
 
 export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
   const { palettes, removePalette } = props;
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [paletteToRemove, setPaletteToRemove] = React.useState("");
+
+  const handleDelButton = (id: string) => {
+    setPaletteToRemove(id);
+    setIsDialogOpen(true);
+  }
+  const handleShouldDelet = (should: boolean) => {
+    if (should) {
+      removePalette(paletteToRemove);
+      setIsDialogOpen(false);
+      setPaletteToRemove("");
+    } else {
+      setIsDialogOpen(false);
+      setPaletteToRemove("");
+    }
+  }
   return (
+    <>
     <ListPage>
       <div className="container">
         <div className="nav">
@@ -26,12 +45,14 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
         <TransitionGroup className="palettes">
           {palettes.map((p) => (
             <CSSTransition key={p.id} timeout={500}>
-              <MiniPalette palette={p} removePalette={removePalette} />
+              <MiniPalette palette={p} removePalette={handleDelButton} />
             </CSSTransition>
           ))}
         </TransitionGroup>
       </div>
     </ListPage>
+    <ConfirmRemoveDialog isOpen={isDialogOpen} paletteName={paletteToRemove} shouldDelet={handleShouldDelet}/>
+    </>
   );
 };
 
