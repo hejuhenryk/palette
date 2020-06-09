@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import { makeStyles, Theme, createStyles } from "@material-ui/core";
 import styled from "styled-components";
 import { SubmitFormDialog } from "./SubmitFormDialog";
+import { device } from "./media";
 
 type Props = {
   paletteNames: string[];
@@ -76,7 +77,7 @@ export const PaletteFormNav: React.FC<Props> = ({
           >
             <ChevronRightIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className="title" >
             Palette - Create your own one!
           </Typography>
           <Buttons>
@@ -101,11 +102,23 @@ export const PaletteFormNav: React.FC<Props> = ({
 const ToolbarStyled = styled(Toolbar)`
   display: flex;
   justify-content: space-between;
+  .title {
+    display: none;
+    @media ${device.tablet} {
+    display: inline-block;
+
+  }
+  }
+  
 `;
 
 const Buttons = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   button {
     margin-left: .3rem;
+    min-width: 110px;
   }
 `;

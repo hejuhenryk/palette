@@ -6,6 +6,7 @@ import { Select, MenuItem, Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { Link } from "react-router-dom";
+import { device } from "./media";
 
 type NavbarPropsT = {
   onChange?: (value: LevelT) => void;
@@ -75,30 +76,52 @@ export const Navbar: React.FC<NavbarPropsT> = (props) => {
 
 const NavbarStyled = styled.header`
   width: 100%;
+  background-color: #cccccc;
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  & :nth-child(1) {order: 2}
+  & :nth-child(2) {order: 1}
+  & :nth-child(3) {order: 3}
+  @media ${device.tablet} {
+    flex-wrap: nowrap;
+    & :nth-child(1) {order: 1}
+  & :nth-child(2) {order: 2}
+  & :nth-child(3) {order: 3}
+  }
 `;
 
 const Logo = styled.div`
   display: flex;
   align-items: center;
   padding: 0 0.5rem;
-  background-color: #c3c3c3;
+  background-color: #000000;
+  /* display: none; */
+  width: 45%;
   a {
-    color: black;
+    color: white;
     text-decoration: none;
+    font-weight: 800;
+  }
+  @media ${device.tablet} {
+    display: inline-flex;
   }
 `;
 
 const SliderConteiner = styled.div`
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   width: 100%;
   margin: 0 0.5rem;
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const StyledSlider = styled(Slider)`
-  width: 70%;
+  width: 100%;
   margin: 0.5rem;
   display: inline-flex;
   padding: 0;
@@ -129,7 +152,7 @@ const StyledSlider = styled(Slider)`
 `;
 
 const SelectContainer = styled.div`
-  width: 100%;
+  width: 45%;
   padding: 0 0.5rem;
   display: flex; 
   justify-content: flex-end;

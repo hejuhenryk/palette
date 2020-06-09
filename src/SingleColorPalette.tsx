@@ -5,6 +5,7 @@ import { ColorBox } from "./ColorBox";
 import { Navbar } from "./Navbar";
 import { PaletteFooter } from "./PaletteFooter";
 import { useHistory } from "react-router-dom";
+import { device } from "./media";
 
 type SingleColorPalettePropsT = {
   paletteId: string;
@@ -37,7 +38,7 @@ export const SingleColorPalette: React.FC<SingleColorPalettePropsT> = ({
           <ColorBox
             key={s!.hex}
             color={{ color: s![colorMode], name: s!.name }}
-            height="50%"
+            monochrome={true}
             paletteId={paletteId}
             id={s!.id}
             hiddeLink
@@ -64,12 +65,22 @@ const PalettePage = styled.div`
   flex-direction: column;
 `;
 const GoBackBox = styled.div`
-  width: 20%;
-  height: 50%;
+  width: 100%;
+  height: 10%;
   background-color: black;
   display: flex;
   flex-flow: column-reverse;
   position: relative;
+  @media ${device.mobileL} {
+    width: 50%;
+    height: 20%;
+  };
+  @media ${device.tablet} {
+    width: 100%; height: 25%; 
+  }
+  @media ${device.laptop} {
+    width: 20%; height: 50%; 
+  }
 
   button {
     text-transform: uppercase;

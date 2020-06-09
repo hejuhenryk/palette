@@ -15,7 +15,7 @@ import { initialPalettes } from "./seedPalettes";
 import { ColorPickerForm } from "./ColorPickerForm";
 import styled from "styled-components";
 
-export const drawerWidth = "25%";
+export const drawerWidth = "15rem";
 export const appBarHeight = "64px";
 
 const useStyles = makeStyles((theme: Theme) =>

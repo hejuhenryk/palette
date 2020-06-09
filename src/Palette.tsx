@@ -5,6 +5,7 @@ import { ColorBox } from "./ColorBox";
 import "rc-slider/assets/index.css";
 import { Navbar } from "./Navbar";
 import { PaletteFooter } from './PaletteFooter';
+import { device } from "./media";
 
 type PalettePropsT = {
   paletteData: ExtendedPaletteT;
@@ -46,8 +47,12 @@ const PaletteStyled = styled.div`
   flex-direction: column;
   .color-boxes {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     height: 100%;
+    @media ${device.tablet} {
+      flex-direction: row;
+    }
   }
 `;
 

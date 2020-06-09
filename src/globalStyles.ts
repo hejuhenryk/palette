@@ -1,14 +1,25 @@
 import { createGlobalStyle } from "styled-components";
+import background from "./bg.svg";
 
 export const GlobalStyle = createGlobalStyle`
-html, body {
-    /* height: 100vh;
-    width: 100vw; */
-}
+
 html {
   box-sizing: border-box;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
+  height: 100%;
+    width: 100%;
+}
+body {
+  height: 100%;
+    width: 100%;
+}
+#root {
+  height: 100%;
+  width: 100%;
+  /* background by SVGBackgrounds.com */
+  background-color: #000000;
+  background-image: url(${background});
 }
 
 *, *:before, *:after {

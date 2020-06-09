@@ -4,13 +4,14 @@ import { ColorT } from "./index.d";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { Link } from "react-router-dom";
 import * as chroma from 'chroma.ts';
+import { device } from "./media";
 
 type ColorBoxPropsT = {
   color: ColorT;
   paletteId: string;
   id: string;
   hiddeLink?: true;
-  height?: string;
+  monochrome?: boolean;
 };
 
 
@@ -27,7 +28,7 @@ export const ColorBox: React.FC<ColorBoxPropsT> = (props) => {
   };
 
   return (
-    <ColorBoxStyled backgroud={color} height={props.height || "25%"} isColorBright={isColorBright} >
+    <ColorBoxStyled backgroud={color} monochrome={props.monochrome} isColorBright={isColorBright} >
       <div className={`overlay-copy${isCopied ? " show" : ""}`} />
       <div className={`copy-msg${isCopied ? " show" : ""}`}>
         <h1>copied</h1>
@@ -82,14 +83,25 @@ const CopyContainer = styled.div<{isColorBright: boolean}>`
   }
 `;
 
-const ColorBoxStyled = styled.div<{ backgroud: string, height: string, isColorBright: boolean }>`
+const ColorBoxStyled = styled.div<{ backgroud: string, monochrome?: boolean, isColorBright: boolean }>`
   position: relative;
   display: flex;
   justify-content: space-between;
   background-color: ${(p) => p.backgroud};
-  width: 20%;
-  height: ${p=>p.height};
+  width: 100%;
+  height: ${p=>p.monochrome ? 10 : 5}%;
   /* cursor: pointer; */
+  @media ${device.mobileL} {
+    width: 50%; height: ${p=>p.monochrome ? 20 : 10}%; 
+  }
+  @media ${device.tablet} {
+    width: ${p=>p.monochrome ? 33 : 25}%; 
+    height: ${p=>p.monochrome ? 25 : 20}%; 
+  }
+  @media ${device.laptop} {
+    height: ${p=>p.monochrome ? 50 : 25}%;
+    width: 20%
+  }
   .overlay-copy {
     position: absolute;
     opacity: 0;
@@ -101,7 +113,7 @@ const ColorBoxStyled = styled.div<{ backgroud: string, height: string, isColorBr
   }
   .overlay-copy.show {
     z-index: 10;
-    transform: scale(15);
+    transform: scale(55);
     opacity: 1;
     /* overflow: hidden; */
   }

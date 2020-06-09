@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { PaletteT } from "./index.d";
 import { MiniPalette } from "./MiniPalette";
 import { Link } from "react-router-dom";
+import { device } from "./media";
 
 type PalettesListPropsT = {
   palettes: PaletteT[];
-  removePalette: (id: string)=>void
+  removePalette: (id: string) => void;
 };
 
 export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
@@ -20,7 +21,7 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
         </div>
         <div className="palettes">
           {palettes.map((p) => (
-            <MiniPalette palette={p} key={p.id} removePalette={removePalette}/>
+            <MiniPalette palette={p} key={p.id} removePalette={removePalette} />
           ))}
         </div>
       </div>
@@ -29,19 +30,30 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
 };
 
 const ListPage = styled.div`
-  background-color: #7c95d2;
+  /* background-color: #7c95d2; */
   display: flex;
-  height: 100vh;
+  height: 100%;
   align-items: flex-start;
   justify-content: center;
+  overflow: auto;
   .container {
-    width: 50%;
+    width: 90%;
     display: flex;
     align-items: center;
     flex-direction: column;
     flex-wrap: wrap;
     padding: 2rem;
+    /* height: 100%; */
     box-sizing: border-box;
+    @media ${device.mobileL} {
+      width: 80%;
+    }
+    @media ${device.tablet} {
+      width: 75%;
+    }
+    @media ${device.laptop} {
+      width: 65%;
+    }
   }
   .nav {
     display: flex;
@@ -59,8 +71,18 @@ const ListPage = styled.div`
     width: 100%;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(3, 30%);
-    grid-gap: 5%;
+    /* height: 80%; */
+    grid-template-columns: repeat(1, 100%);
+    grid-gap: 1rem 0;
     padding: 1rem;
+    @media ${device.tablet} {
+      grid-gap: 1rem 10%;
+      grid-template-columns: repeat(2, 45%);
+    }
+    @media ${device.laptop} {
+      grid-gap: 1rem 5%;
+
+      grid-template-columns: repeat(3, 30%);
+    }
   }
 `;

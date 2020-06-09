@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { device } from "./media";
 
 type Props = {
   paletteName: string;
@@ -17,13 +18,18 @@ export const PaletteFooter: React.FC<Props> = ({ paletteName, emoji }) => {
 
 const Footer = styled.footer`
   padding: 0 1rem;
-  display: flex;
+  display: none;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
   height: 3rem;
+  background-color: #cccccc;
+  /* position: fixed */
   .emoji {
     size: 2rem;
     margin: 0 0.4rem;
+  }
+  @media ${device.mobileL} {
+    display: flex;
   }
 `;

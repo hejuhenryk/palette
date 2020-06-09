@@ -45,7 +45,7 @@ export const SubmitFormDialog: React.FC<Props> = ({
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Save Palette {emoji}
+        Save
       </Button>
       <Dialog
         open={open}
@@ -74,7 +74,7 @@ export const SubmitFormDialog: React.FC<Props> = ({
           )}
           <ValidatorForm
             onSubmit={handleSubmit}
-            onError={(errors) => console.log(errors, "validForm")}
+            onError={(errors) => console.log(errors)}
             style={{ display: "flex", flexDirection: "column" }}
           >
             <TextValidator
