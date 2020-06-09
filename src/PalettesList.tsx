@@ -4,6 +4,8 @@ import { PaletteT } from "./index.d";
 import { MiniPalette } from "./MiniPalette";
 import { Link } from "react-router-dom";
 import { device } from "./media";
+import Icon from "@material-ui/core/Icon";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 type PalettesListPropsT = {
   palettes: PaletteT[];
@@ -16,14 +18,18 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
     <ListPage>
       <div className="container">
         <div className="nav">
-          <h3>Palletes</h3>
-          <Link to="/new">create new palette</Link>
+          <h3 className="title">Palletes</h3>
+          <Link to="/new">
+            <Icon style={{ fontSize: "2rem" }}>add_circle</Icon>
+          </Link>
         </div>
-        <div className="palettes">
+        <TransitionGroup className="palettes">
           {palettes.map((p) => (
-            <MiniPalette palette={p} key={p.id} removePalette={removePalette} />
+            <CSSTransition key={p.id} timeout={500}>
+              <MiniPalette palette={p} removePalette={removePalette} />
+            </CSSTransition>
           ))}
-        </div>
+        </TransitionGroup>
       </div>
     </ListPage>
   );
@@ -31,11 +37,24 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
 
 const ListPage = styled.div`
   /* background-color: #7c95d2; */
+  .exit {
+    opacity: 1;
+    transition: opacity 200ms;
+  }
+  .exit-active {
+    opacity: 0;
+    /* transition: opacity 800ms; */
+  }
   display: flex;
   height: 100%;
   align-items: flex-start;
   justify-content: center;
   overflow: auto;
+  .title {
+    font-size: 2rem;
+    font-weight: 900;
+  }
+
   .container {
     width: 90%;
     display: flex;
@@ -62,9 +81,12 @@ const ListPage = styled.div`
     color: white;
     font-weight: 700;
     padding: 0 1rem;
+    align-items: center;
     a {
       color: white;
       text-decoration: none;
+      display: flex;
+      font-size: 2rem;
     }
   }
   .palettes {
