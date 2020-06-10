@@ -11,8 +11,9 @@ type Props = {
   handlerRemove: (c: string) => void;
 };
 
-const DraggableColorBox = SortableElement(
+const DraggableColorBox = React.memo( SortableElement(
   ({ color, name, handlerRemove }: Props) => {
+    console.log(color)
     return (
       <ColorBox color={color}>
         <span>
@@ -24,7 +25,7 @@ const DraggableColorBox = SortableElement(
       </ColorBox>
     );
   }
-);
+));
 
 const ColorBox = styled.div<{ color: string }>`
   background-color: ${(p) => p.color};

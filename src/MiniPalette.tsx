@@ -9,17 +9,21 @@ type MiniPalettePropsT = {
   removePalette: (id: string)=>void;
 };
 
-export const MiniPalette: React.FC<MiniPalettePropsT> = (props) => {
+export const MiniPalette: React.FC<MiniPalettePropsT> = React.memo((props) => {
   const { paletteName, colors, emoji, id } = props.palette;
   const history = useHistory();
-  const redirectToPalette = (paletteId: string): void => {
-    history.push(`/palette/${paletteId}`);
+  const redirectToPalette = () => {
+    history.push(`/palette/${id}`);
   };
 
+  const handleRemoveButtonClick = () => {
+    props.removePalette(id)
+  }
+  console.log(id)
   return (
     <Container>
-    <IconButton className="delateBtn" edge="end" onClick={()=>props.removePalette(id)} ><DelateIcon /></IconButton>
-    <MiniPaletteStyled onClick={() => redirectToPalette(id)}>
+    <IconButton className="delateBtn" edge="end" onClick={handleRemoveButtonClick} ><DelateIcon /></IconButton>
+    <MiniPaletteStyled onClick={redirectToPalette}>
       
       <div className="colors">
         {colors.map((c) => (
@@ -33,7 +37,8 @@ export const MiniPalette: React.FC<MiniPalettePropsT> = (props) => {
     </MiniPaletteStyled>
     </Container>
   );
-};
+});
+
 const Container = styled.div`
   position: relative;
   overflow: hidden;

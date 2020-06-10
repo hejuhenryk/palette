@@ -9,16 +9,18 @@ type Props = {
   colors: ColorT[];
   handleRemove: (c: string) => void;
 };
-const DraggableColorList = SortableContainer((props: Props) => {
+const DraggableColorList = SortableContainer(({colors, handleRemove}: Props) => {
+  console.log("reList")
+  const hr = React.useCallback((c: string)=>{handleRemove(c)},[handleRemove])
     return (
       <ListContainer>
-        {props.colors.map((c, i) => (
+        {colors.map((c, i) => (
           <DraggableColorBox
             index={i}
             color={c.color}
             name={c.name}
             key={c.name + c.color}
-            handlerRemove={props.handleRemove}
+            handlerRemove={hr}
           />
         ))}
       </ListContainer>

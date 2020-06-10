@@ -18,10 +18,10 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [paletteToRemove, setPaletteToRemove] = React.useState("");
 
-  const handleDelButton = (id: string) => {
+  const handleRemovePalette = React.useCallback((id: string) => {
     setPaletteToRemove(id);
     setIsDialogOpen(true);
-  }
+  }, [])
   const handleShouldDelet = (should: boolean) => {
     if (should) {
       removePalette(paletteToRemove);
@@ -45,7 +45,7 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
         <TransitionGroup className="palettes">
           {palettes.map((p) => (
             <CSSTransition key={p.id} timeout={500}>
-              <MiniPalette palette={p} removePalette={handleDelButton} />
+              <MiniPalette palette={p} removePalette={handleRemovePalette} />
             </CSSTransition>
           ))}
         </TransitionGroup>

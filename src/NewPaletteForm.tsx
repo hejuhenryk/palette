@@ -74,10 +74,8 @@ type Props = {
   addPalette: (p: PaletteT) => void;
 };
 
-export const NewPaletteForm: React.FC<Props> = ({
-  paletteNames,
-  addPalette,
-}) => {
+export const NewPaletteForm: React.FC<Props> = React.memo((props) => {
+  const { paletteNames, addPalette } = props;
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState(true);
@@ -95,9 +93,9 @@ export const NewPaletteForm: React.FC<Props> = ({
     setOpen(false);
   };
 
-  const handleRemove = (color: string) => {
+  const handleRemove = React.useCallback((color: string) => {
     setPalette((palette) => palette.filter((c) => c.color !== color));
-  };
+  },[]);
   const handleAddPalette = (name: string, emoji?: string) => {
     const newPalette: PaletteT = {
       paletteName: name,
@@ -160,7 +158,7 @@ export const NewPaletteForm: React.FC<Props> = ({
         </div>
         <Divider />
         <DrawerContainer>
-          <span className="btn-container" >
+          <span className="btn-container">
             <Button
               onClick={handleClearPalette}
               variant="contained"
@@ -203,14 +201,14 @@ export const NewPaletteForm: React.FC<Props> = ({
       </main>
     </div>
   );
-};
+});
 
 const DrawerContainer = styled.div`
-  padding: .2rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
+  padding: 0.2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   .btn-container {
     display: flex;
     justify-content: space-between;

@@ -26,7 +26,7 @@ export const ColorBox: React.FC<ColorBoxPropsT> = (props) => {
       setIsCopied(false);
     }, 1500);
   };
-
+  console.log(color)
   return (
     <ColorBoxStyled backgroud={color} monochrome={props.monochrome} isColorBright={isColorBright} >
       <div className={`overlay-copy${isCopied ? " show" : ""}`} />
