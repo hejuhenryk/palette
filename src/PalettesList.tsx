@@ -13,11 +13,10 @@ type PalettesListPropsT = {
   removePalette: (id: string) => void;
 };
 
-export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
+export const PalettesList: React.FC<PalettesListPropsT> = React.memo( (props) => {
   const { palettes, removePalette } = props;
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [paletteToRemove, setPaletteToRemove] = React.useState("");
-
   const handleRemovePalette = React.useCallback((id: string) => {
     setPaletteToRemove(id);
     setIsDialogOpen(true);
@@ -54,7 +53,7 @@ export const PalettesList: React.FC<PalettesListPropsT> = (props) => {
     <ConfirmRemoveDialog isOpen={isDialogOpen} paletteName={paletteToRemove} shouldDelet={handleShouldDelet}/>
     </>
   );
-};
+});
 
 const ListPage = styled.div`
   /* background-color: #7c95d2; */

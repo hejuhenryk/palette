@@ -12,19 +12,18 @@ type MiniPalettePropsT = {
 export const MiniPalette: React.FC<MiniPalettePropsT> = React.memo((props) => {
   const { paletteName, colors, emoji, id } = props.palette;
   const history = useHistory();
+  
   const redirectToPalette = () => {
     history.push(`/palette/${id}`);
   };
-
   const handleRemoveButtonClick = () => {
     props.removePalette(id)
   }
-  console.log(id)
+
   return (
     <Container>
     <IconButton className="delateBtn" edge="end" onClick={handleRemoveButtonClick} ><DelateIcon /></IconButton>
     <MiniPaletteStyled onClick={redirectToPalette}>
-      
       <div className="colors">
         {colors.map((c) => (
           <Color key={c.color} color={c.color} />

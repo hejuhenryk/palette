@@ -60,7 +60,7 @@ export const SubmitFormDialog: React.FC<Props> = ({
             give your palette a unik name.
           </DialogContentText>{" "}
           {emoji === "" ? (
-            <Picker onEmojiClick={(e, data) => setEmoji(data.emoji)} />
+            <Picker preload={false} onEmojiClick={(e, data) => setEmoji(data.emoji)} />
           ) : (
             <Button
               style={{ width: "100%", fontSize: "1.3rem" }}

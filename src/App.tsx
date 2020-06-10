@@ -9,7 +9,8 @@ import { PalettesList } from "./PalettesList";
 import { SingleColorPalette } from "./SingleColorPalette";
 import { NewPaletteForm } from "./NewPaletteForm";
 import { PaletteT } from "./index.d";
-import { usePersistentState } from "./usePersistentState";
+import { usePersistentState } from "./hooks/usePersistentState";
+import { Page404 } from "./Page404";
 
 // const palettesReducer = (state: ExtendedPaletteT[]): ExtendedPaletteT[] => {
 //   return state;
@@ -26,9 +27,9 @@ export const App = () => {
   const handleAddPalette = (p: PaletteT) => {
     setPalettes([...palettes, p])
   }
-  const handleRemovePalette = (id: string) => {
+  const handleRemovePalette = React.useCallback((id: string) => {
     setPalettes(palettes.filter(p=>p.id!==id))
-  }
+  },[palettes, setPalettes])
   return (
     <>
       <GlobalStyle />
@@ -43,7 +44,7 @@ export const App = () => {
           path="/palette/:id/:colorId"
           render={(routeProps) =>
             !findPalette(routeProps.match.params.id) ? (
-              <h1>Palette is not fined</h1>
+              <h1>Palette is not found</h1>
             ) : (
               <SingleColorPalette
                 paletteId={routeProps.match.params.id}
@@ -60,7 +61,7 @@ export const App = () => {
             findPalette(routeProps.match.params.id) ? (
               <Palette paletteData={extendPalette(findPalette(routeProps.match.params.id)!)} />
             ) : (
-              <h1>Palette is not fined</h1>
+              <h1>Palette is not found</h1>
             )
           }
         />
@@ -69,21 +70,8 @@ export const App = () => {
           path="/new"
           render={() => <NewPaletteForm paletteNames={palettes.map(p=>p.paletteName)} addPalette={handleAddPalette} />}
         />
+        <Route component={Page404}/>
       </Switch>
     </>
   );
 };
-
-// const getColorRange = (hexColor: string) => [
-//   "#fff",
-//   hexColor,
-//   chroma.color(hexColor).darker(1.4).hex(),
-// ];
-
-// console.log(
-//   chroma.scale(getColorRange("#bb1299")).mode("lab").colors(10, "hex")
-// );
-// ["#720059", "#820367", "#920675", "#a20b83", "#b31092", "#c53ea4", "#d774bb", "#e6a4d1", "#f4d1e8", "#ffffff"]
-// ["#ffffff", "#f4d1e8", "#e6a4d1", "#d774bb", "#c53ea4", "#b31092", "#a20b83", "#920675", "#820367", "#720059"]
-
-// console.log(extendPalette(initialPalettes[5]));

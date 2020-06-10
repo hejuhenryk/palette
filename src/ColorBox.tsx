@@ -5,6 +5,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { Link } from "react-router-dom";
 import * as chroma from 'chroma.ts';
 import { device } from "./media";
+import { useToogle } from "./hooks/useToogle";
 
 type ColorBoxPropsT = {
   color: ColorT;
@@ -18,15 +19,14 @@ type ColorBoxPropsT = {
 
 export const ColorBox: React.FC<ColorBoxPropsT> = (props) => {
   const { color, name } = props.color;
-  const [isCopied, setIsCopied] = useState(false);
+  const [isCopied, toogleIsCopied, setIsCopied] = useToogle(false);
   const isColorBright = chroma.color(color).luminance() > 0.5;
   const copyHandler = () => {
     setIsCopied(true);
     setTimeout(() => {
-      setIsCopied(false);
+      toogleIsCopied();
     }, 1500);
   };
-  console.log(color)
   return (
     <ColorBoxStyled backgroud={color} monochrome={props.monochrome} isColorBright={isColorBright} >
       <div className={`overlay-copy${isCopied ? " show" : ""}`} />

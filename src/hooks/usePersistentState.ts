@@ -22,7 +22,6 @@ export const usePersistentState = <T>(localStorageKey: string, initialValue: T):
   }, [localStorageKey])
   useEffect(() => {
     const v = getInitialValue()
-    console.log("Using effect")
     setState(v)
   }, [getInitialValue, setState])
 

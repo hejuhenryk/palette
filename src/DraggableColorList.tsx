@@ -10,7 +10,6 @@ type Props = {
   handleRemove: (c: string) => void;
 };
 const DraggableColorList = SortableContainer(({colors, handleRemove}: Props) => {
-  console.log("reList")
   const hr = React.useCallback((c: string)=>{handleRemove(c)},[handleRemove])
     return (
       <ListContainer>

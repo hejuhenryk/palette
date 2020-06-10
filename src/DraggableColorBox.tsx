@@ -13,7 +13,6 @@ type Props = {
 
 const DraggableColorBox = React.memo( SortableElement(
   ({ color, name, handlerRemove }: Props) => {
-    console.log(color)
     return (
       <ColorBox color={color}>
         <span>
@@ -42,11 +41,13 @@ const ColorBox = styled.div<{ color: string }>`
     width: 100%;
     padding: 0 5%;
     height: 100%;
+    overflow: hidden;
     @media ${device.tablet} {
       height: 20%;
     }
     p {
       text-transform: uppercase;
+      max-width: 75%;
     }
   }
   @media ${device.tablet} {
