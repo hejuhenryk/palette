@@ -3,7 +3,6 @@ import { useEffect, useState, useCallback} from 'react'
 type UsePersistentStateHook<T> = [ T, (value: T) => void]
 
 export const usePersistentState = <T>(localStorageKey: string, initialValue: T): UsePersistentStateHook<T> => {
-
   const getInitialValue = useCallback(() => {
     try {
       const item = localStorage.getItem(localStorageKey);
@@ -20,6 +19,7 @@ export const usePersistentState = <T>(localStorageKey: string, initialValue: T):
     setRawState(value)
     localStorage.setItem(localStorageKey, JSON.stringify(value))
   }, [localStorageKey])
+  
   useEffect(() => {
     const v = getInitialValue()
     setState(v)

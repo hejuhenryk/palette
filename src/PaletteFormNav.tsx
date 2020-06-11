@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
-import { drawerWidth, appBarHeight } from "./NewPaletteForm";
+import { drawerWidth, appBarHeight } from "./PaletteForm";
 import { useHistory } from "react-router-dom";
 import { makeStyles, Theme, createStyles } from "@material-ui/core";
 import styled from "styled-components";
@@ -20,6 +20,10 @@ type Props = {
   addPalette: (name: string, emiji?: string) => void;
   open: boolean;
   handleDrawerOpen: () => void;
+  saveMode?: {
+    emoji: string,
+    name: string
+  }
 };
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,6 +57,7 @@ export const PaletteFormNav: React.FC<Props> = ({
   addPalette,
   open,
   handleDrawerOpen,
+  saveMode
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -84,6 +89,7 @@ export const PaletteFormNav: React.FC<Props> = ({
             <SubmitFormDialog
               addPalette={addPalette}
               paletteNames={paletteNames}
+              saveMode={saveMode}
             />
             <Button
               onClick={() => history.push("/")}

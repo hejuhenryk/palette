@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ExtendedPaletteT, keys, ColorModelT } from "./colorHelper";
 import styled from "styled-components";
 import { ColorBox } from "./ColorBox";
-import { Navbar } from "./Navbar";
+import { Navbar } from "./PaletteNavbar";
 import { PaletteFooter } from "./PaletteFooter";
 import { useHistory } from "react-router-dom";
 import { device } from "./media";

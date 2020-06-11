@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { ColorT } from "./index.d";
 import CopyToClipboard from "react-copy-to-clipboard";

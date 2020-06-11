@@ -9,22 +9,27 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 type Props = {
-  addPalette: (name: string, emoji?: string) => void;
+  addPalette: (name: string, emoji: string) => void;
   paletteNames: string[];
+  saveMode?: {
+    name: string;
+    emoji: string;
+  } 
 };
 
 export const SubmitFormDialog: React.FC<Props> = ({
   addPalette,
   paletteNames,
+  saveMode
 }) => {
   const [open, setOpen] = React.useState(false);
-  const [emoji, setEmoji] = React.useState("");
-  const [paletteName, setPaletteName] = React.useState("");
+  const [emoji, setEmoji] = React.useState(saveMode ? saveMode.emoji : "");
+  const [paletteName, setPaletteName] = React.useState(saveMode ? saveMode.name : "");
 
   React.useEffect(() => {
     ValidatorForm.addValidationRule("isPaletteNameUnique", (value) => {
       return paletteNames.every(
-        (name) => name.toLowerCase() !== value.toLowerCase()
+        (name) => name.toLowerCase() !==( saveMode ? 0 :value.toLowerCase())
       );
     });
   });

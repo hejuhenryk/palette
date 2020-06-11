@@ -6,7 +6,7 @@ import { extendPalette } from "./colorHelper";
 import { Palette } from "./Palette";
 import { PalettesList } from "./PalettesList";
 import { SingleColorPalette } from "./SingleColorPalette";
-import { NewPaletteForm } from "./NewPaletteForm";
+import { PaletteForm } from "./PaletteForm";
 import { Page404 } from "./Page404";
 
 import {PaletteContext} from './context/paletteContext'
@@ -14,7 +14,7 @@ import {PaletteContext} from './context/paletteContext'
 
 export const App = () => {
 
-  const {getPalette, palettes, addPalette} = React.useContext(PaletteContext);
+  const {getPalette} = React.useContext(PaletteContext);
 
   return (
     <>
@@ -54,7 +54,17 @@ export const App = () => {
         <Route
           exact
           path="/new"
-          render={() => <NewPaletteForm paletteNames={palettes.map(p=>p.paletteName)} addPalette={addPalette} />}
+          render={() => <PaletteForm />}
+        />
+        <Route
+          exact
+          path="/edit/:id"
+          render={(routeProps) =>
+            getPalette(routeProps.match.params.id) ? (
+              <PaletteForm paletteToEdit={getPalette(routeProps.match.params.id)!} />
+            ) : (
+              <h1>Palette is not found</h1>
+            )}
         />
         <Route component={Page404}/>
       </Switch>

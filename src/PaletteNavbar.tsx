@@ -27,7 +27,7 @@ export const Navbar: React.FC<NavbarPropsT> = (props) => {
   return (
     <NavbarStyled>
       <Logo>
-        <Link to="/">LogoColorPicker</Link>
+        <Link to="/">Color Picker</Link>
       </Logo>
       {props.level && (
         <SliderConteiner>

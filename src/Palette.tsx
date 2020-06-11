@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { ExtendedPaletteT, LevelT, ColorModelT } from "./colorHelper";
 import { ColorBox } from "./ColorBox";
 import "rc-slider/assets/index.css";
-import { Navbar } from "./Navbar";
+import { Navbar } from "./PaletteNavbar";
 import { PaletteFooter } from './PaletteFooter';
 import { device } from "./media";
+import { useHistory } from "react-router-dom";
 
 type PalettePropsT = {
   paletteData: ExtendedPaletteT;
@@ -16,11 +17,9 @@ export const Palette: React.FC<PalettePropsT> = (props) => {
   const [colorModel, setColorModel] = useState("hex" as ColorModelT);
   const { paletteName, emoji, colors, id } = props.paletteData;
   let palette = colors[saturation];
-
+  const history = useHistory();
   return (
     <PaletteStyled>
-      {/* header */}
-
       <Navbar
         level={saturation}
         onChange={(value: LevelT) => setSaturation(value)}
@@ -35,13 +34,13 @@ export const Palette: React.FC<PalettePropsT> = (props) => {
         ))}
       </div>
       {/* footer */}
-          <PaletteFooter paletteName={paletteName} emoji={emoji} />
+          <PaletteFooter paletteName={paletteName} emoji={emoji} handleEdit={()=>history.push(`/edit/${props.paletteData.id}`)}/>
     </PaletteStyled>
   );
 };
 
 const PaletteStyled = styled.div`
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -51,7 +50,7 @@ const PaletteStyled = styled.div`
     flex-wrap: wrap;
     background-color: rgba(255,255,255);
     align-content: flex-start;
-    height: 100vh;
+    height: 100%;
     @media ${device.tablet} {
       flex-direction: row;
     }

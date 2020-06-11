@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import clsx from "clsx";
@@ -16,6 +16,7 @@ import { PaletteFormNav } from "./PaletteFormNav";
 import { DraggableColorList } from "./DraggableColorList";
 import { ColorPickerForm } from "./ColorPickerForm";
 import { ColorT, PaletteT } from "./index.d";
+import { PaletteContext } from "./context/paletteContext";
 
 export const drawerWidth = "15rem";
 export const appBarHeight = "64px";
@@ -72,14 +73,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-  paletteNames: string[];
-  addPalette: (p: PaletteT) => void;
+  paletteToEdit?: PaletteT;
 };
 
-export const NewPaletteForm: React.FC<Props> = React.memo((props) => {
-  const { paletteNames, addPalette } = props;
+export const PaletteForm: React.FC<Props> = React.memo(({paletteToEdit}) => {
+  const {palettes, addPalette, replacePalette  } = useContext(PaletteContext)
+  const paletteNames = palettes.map(p=>p.paletteName)
   const [open, setOpen] = useState(true);
-  const [palette, setPalette] = useState(initialPalettes[0].colors);
+  const [palette, setPalette] = useState( paletteToEdit ? paletteToEdit.colors : initialPalettes[0].colors);
   const classes = useStyles();
   const history = useHistory();
 
@@ -104,7 +105,7 @@ export const NewPaletteForm: React.FC<Props> = React.memo((props) => {
       emoji: emoji ? emoji : "<3",
       colors: palette,
     };
-    addPalette(newPalette);
+    paletteToEdit ? replacePalette(paletteToEdit.id, newPalette) : addPalette(newPalette);
     history.push("/");
   };
   const handleClearPalette = () => {
@@ -142,6 +143,7 @@ export const NewPaletteForm: React.FC<Props> = React.memo((props) => {
         addPalette={handleAddPalette}
         open={open}
         handleDrawerOpen={handleDrawerOpen}
+        saveMode={paletteToEdit ? {name: paletteToEdit.paletteName, emoji: paletteToEdit.emoji} : undefined}
       />
       <Drawer
         className={open ? classes.drawer : classes.minDrower}

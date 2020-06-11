@@ -6,7 +6,7 @@ export type usePaletteStateT = {
     addPalette: (p: PaletteT) => void;
     removePalette: (id: string) => void;
     getPalette: (id: string) => PaletteT | undefined;
-    replacePalette: (id: string, newPalette: PaletteT) => PaletteT[];
+    replacePalette: (id: string, newPalette: PaletteT) => void;
 }
 
 export const usePaletteState = (storageKey: string, initialPalettes: PaletteT[]): usePaletteStateT => {
@@ -16,6 +16,6 @@ export const usePaletteState = (storageKey: string, initialPalettes: PaletteT[])
         addPalette: (p: PaletteT) => {setState([...state, p])},
         removePalette: (id: string) => { setState(state.filter(p=>p.id!==id)) },
         getPalette: (id: string) => state.find(p=>p.id === id),
-        replacePalette: (id: string, newPalette: PaletteT) => state.map(p=>p.id === id ? newPalette : p)
+        replacePalette: (id: string, newPalette: PaletteT) => setState(state.map(p=>p.id === id ? newPalette : p))
     }
 }
