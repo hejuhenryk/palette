@@ -28,6 +28,7 @@ const DraggableColorList = SortableContainer(({colors, handleRemove}: Props) => 
   });
 
   const ListContainer = styled.div`
+    background-color: rgba(255,255,255,0.8);
     height: 100%;
   `
 

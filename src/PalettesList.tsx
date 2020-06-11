@@ -1,20 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { PaletteT } from "./index.d";
 import { MiniPalette } from "./MiniPalette";
 import { Link } from "react-router-dom";
 import { device } from "./media";
 import Icon from "@material-ui/core/Icon";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { ConfirmRemoveDialog } from "./ConfirmRemoveDialog";
+import { PaletteContext } from "./context/paletteContext";
 
-type PalettesListPropsT = {
-  palettes: PaletteT[];
-  removePalette: (id: string) => void;
-};
 
-export const PalettesList: React.FC<PalettesListPropsT> = React.memo( (props) => {
-  const { palettes, removePalette } = props;
+export const PalettesList: React.FC/* <PalettesListPropsT> */ = React.memo( (props) => {
+  const { palettes, removePalette } = useContext(PaletteContext);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [paletteToRemove, setPaletteToRemove] = React.useState("");
   const handleRemovePalette = React.useCallback((id: string) => {

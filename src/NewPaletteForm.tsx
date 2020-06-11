@@ -1,19 +1,21 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 import clsx from "clsx";
+
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { PaletteFormNav } from "./PaletteFormNav";
-import { ColorT, PaletteT } from "./index.d";
-import { useHistory } from "react-router-dom";
-import { DraggableColorList } from "./DraggableColorList";
 import arrayMove from "array-move";
+
 import { initialPalettes } from "./seedPalettes";
+import { PaletteFormNav } from "./PaletteFormNav";
+import { DraggableColorList } from "./DraggableColorList";
 import { ColorPickerForm } from "./ColorPickerForm";
-import styled from "styled-components";
+import { ColorT, PaletteT } from "./index.d";
 
 export const drawerWidth = "15rem";
 export const appBarHeight = "64px";
@@ -76,11 +78,10 @@ type Props = {
 
 export const NewPaletteForm: React.FC<Props> = React.memo((props) => {
   const { paletteNames, addPalette } = props;
+  const [open, setOpen] = useState(true);
+  const [palette, setPalette] = useState(initialPalettes[0].colors);
   const classes = useStyles();
   const history = useHistory();
-  const [open, setOpen] = useState(true);
-
-  const [palette, setPalette] = useState(initialPalettes[0].colors);
 
   const isPaletteFull = palette.length >= 20;
   const buttonColor = isPaletteFull ? "default" : "primary";
@@ -219,9 +220,4 @@ const DrawerContainer = styled.div`
   }
 `;
 
-// const MainStyled = styled.main`
-//     display: flex;
-//     /* height: 100vh; */
-//     flex-wrap: wrap;
-//     flex-direction: row;
-// `;
+

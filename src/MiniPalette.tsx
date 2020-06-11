@@ -76,6 +76,7 @@ const MiniPaletteStyled = styled.div`
     height: 6rem;
     flex-direction: row;
     flex-wrap: wrap;
+    align-content: flex-start;
     border-radius: 5px;
     overflow: hidden;
     background-color: #c3c3c3;

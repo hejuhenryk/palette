@@ -15,8 +15,6 @@ type ColorBoxPropsT = {
   monochrome?: boolean;
 };
 
-
-
 export const ColorBox: React.FC<ColorBoxPropsT> = (props) => {
   const { color, name } = props.color;
   const [isCopied, toogleIsCopied, setIsCopied] = useToogle(false);

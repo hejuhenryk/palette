@@ -41,7 +41,7 @@ export const Palette: React.FC<PalettePropsT> = (props) => {
 };
 
 const PaletteStyled = styled.div`
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -49,7 +49,9 @@ const PaletteStyled = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    height: 100%;
+    background-color: rgba(255,255,255);
+    align-content: flex-start;
+    height: 100vh;
     @media ${device.tablet} {
       flex-direction: row;
     }
