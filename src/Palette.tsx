@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ExtendedPaletteT, LevelT, ColorModelT } from "./colorHelper";
 import { ColorBox } from "./ColorBox";
-import "rc-slider/assets/index.css";
 import { Navbar } from "./PaletteNavbar";
 import { PaletteFooter } from './PaletteFooter';
 import { device } from "./media";
