@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Slider from "rc-slider";
 import { LevelT, ColorModelT } from "./colorHelper";
 import { Select, MenuItem, Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
+import Slider from "@material-ui/core/Slider";
 
 import { Link } from "react-router-dom";
 import { device } from "./media";
@@ -16,13 +17,16 @@ type NavbarPropsT = {
 };
 
 export const Navbar: React.FC<NavbarPropsT> = (props) => {
-    const [snackbarInfo, setSnackbarInfo] = useState("");
-    
-    const colorCodingChangeHandler = (colorMode: ColorModelT) => {
-        props.colorCodingChangeHandler(colorMode);
-        setSnackbarInfo(`Color format is set to ${colorMode.toLocaleUpperCase()}`);
-    }
+  const [snackbarInfo, setSnackbarInfo] = useState("");
 
+  const colorCodingChangeHandler = (colorMode: ColorModelT) => {
+    props.colorCodingChangeHandler(colorMode);
+    setSnackbarInfo(`Color format is set to ${colorMode.toLocaleUpperCase()}`);
+  };
+
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number | number[] ) => {
+    props.onChange!(newValue as LevelT);
+  };
 
   return (
     <NavbarStyled>
@@ -31,15 +35,20 @@ export const Navbar: React.FC<NavbarPropsT> = (props) => {
       </Logo>
       {props.level && (
         <SliderConteiner>
-          <span>Level: {props.level}</span>
-          <StyledSlider
+          <Typography id="change-saturation-level" gutterBottom>
+          {props.level}
+          </Typography>
+          <Slider
+            value={props.level}
+            onChange={handleChange}
+            defaultValue={500}
+            getAriaValueText={(v: number)=>`${v}`}
+            aria-labelledby="change-saturation-level"
+            step={100}
+            marks
             min={100}
             max={900}
-            step={100}
-            defaultValue={props.level}
-            onChange={
-              props.onChange
-            } /* {(value: LevelT) => setSaturation(value)} */
+            valueLabelDisplay="auto"
           />
         </SliderConteiner>
       )}
@@ -64,7 +73,12 @@ export const Navbar: React.FC<NavbarPropsT> = (props) => {
           "aria-describedby": "message-id",
         }}
         action={[
-          <IconButton onClick={() => setSnackbarInfo("")} color="inherit" key="close" aria-label="close">
+          <IconButton
+            onClick={() => setSnackbarInfo("")}
+            color="inherit"
+            key="close"
+            aria-label="close"
+          >
             <CloseIcon />
           </IconButton>,
         ]}
@@ -81,14 +95,26 @@ const NavbarStyled = styled.header`
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
-  & :nth-child(1) {order: 2}
-  & :nth-child(2) {order: 1}
-  & :nth-child(3) {order: 3}
+  & :nth-child(1) {
+    order: 2;
+  }
+  & :nth-child(2) {
+    order: 1;
+  }
+  & :nth-child(3) {
+    order: 3;
+  }
   @media ${device.tablet} {
     flex-wrap: nowrap;
-    & :nth-child(1) {order: 1}
-  & :nth-child(2) {order: 2}
-  & :nth-child(3) {order: 3}
+    & :nth-child(1) {
+      order: 1;
+    }
+    & :nth-child(2) {
+      order: 2;
+    }
+    & :nth-child(3) {
+      order: 3;
+    }
   }
 `;
 
@@ -112,48 +138,19 @@ const Logo = styled.div`
 const SliderConteiner = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   margin: 0 0.5rem;
+  height: 4.2rem;
   @media ${device.tablet} {
     flex-direction: row;
   }
 `;
 
-const StyledSlider = styled(Slider)`
-  width: 100%;
-  margin: 0.5rem;
-  display: inline-flex;
-  padding: 0;
-  align-items: center;
-  .rc-slider-track {
-    display: none;
-  }
-  .rc-slider-rail {
-    height: 10px;
-    border-radius: 5px;
-  }
-  .rc-slider-handle {
-    background-color: #009500;
-    border: none;
-    margin: 0;
-    height: 20px;
-    width: 20px;
-    :focus,
-    :hover,
-    :active {
-      outline: none;
-      box-shadow: none;
-    }
-  }
-  :focus {
-    outline: none;
-  }
-`;
 
 const SelectContainer = styled.div`
   width: 45%;
   padding: 0 0.5rem;
-  display: flex; 
+  display: flex;
   justify-content: flex-end;
 `;
