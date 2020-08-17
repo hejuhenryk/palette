@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Life project yoo can find on [Life Pallete](https://palette-react-typescript.netlify.app/new).
+Life project you can find on [Life Pallete](https://palette-react-typescript.netlify.app/new).
 
 
 
